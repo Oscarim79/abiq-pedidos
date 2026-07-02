@@ -1,100 +1,134 @@
 "use client";
 
 // ============================================================================
-//  ALMACÉN LOCAL DE PROYECTOS (demo, sin base de datos todavía)
+//  ALMACÉN DE PROYECTOS (demo, sin base de datos todavía)
 // ----------------------------------------------------------------------------
-//  Guarda los proyectos que creas con "Nuevo proyecto" en el navegador
-//  (localStorage). Así puedes ver el flujo funcionando: aparecen en la lista y
-//  tienen su página de detalle, y NO se borran al recargar.
+//  Guarda todos los proyectos en el navegador (localStorage): los que creas,
+//  los que editas y sus cambios de estado. No se borran al recargar.
 //
-//  Importante: solo viven en ESTE navegador. Cuando conectemos Supabase en la
-//  siguiente fase, los proyectos se guardarán de verdad en la nube y se
-//  compartirán entre dispositivos. Este archivo se podrá retirar entonces.
+//  Importante: solo viven en ESTE navegador. Cuando conectemos Supabase
+//  (fase del portal del cliente), los proyectos se guardarán en la nube y se
+//  compartirán entre dispositivos. Solo habrá que reemplazar este archivo.
 // ============================================================================
 import { useEffect, useState } from "react";
-import { proyectos as SEMILLA } from "@/lib/mock-data";
-import type { Proyecto } from "@/lib/tipos";
+import { SEMILLA } from "@/lib/datos-ejemplo";
+import { eliminarArchivosDe } from "@/lib/archivos-store";
+import { avisarSinEspacio } from "@/lib/aviso-espacio";
+import type { EstadoProyecto, Proyecto } from "@/lib/tipos";
 
-const CLAVE = "abiq.proyectos.creados.v1";
+const CLAVE = "abiq.proyectos.v2";
 
-// Datos mínimos que pide el formulario de "Nuevo proyecto".
-export type NuevoProyectoInput = {
-  titulo: string;
-  clienteNombre: string;
-  tienda: string;
-};
+// Lo que llena el vendedor en el formulario (todo menos id, estado y fechas).
+export type ProyectoInput = Omit<
+  Proyecto,
+  "id" | "estado" | "creadoEn" | "enviadoEn" | "firma" | "firmadoPor"
+>;
 
-function leerCreados(): Proyecto[] {
-  if (typeof window === "undefined") return [];
+// Fecha local (no UTC): un pedido capturado a las 8 pm debe quedar con la
+// fecha de hoy, no la de mañana.
+function hoy(): string {
+  const d = new Date();
+  const mes = String(d.getMonth() + 1).padStart(2, "0");
+  const dia = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${mes}-${dia}`;
+}
+
+// Lee la lista completa. La primera vez copia los ejemplos al navegador.
+function leerTodos(): Proyecto[] {
+  if (typeof window === "undefined") return SEMILLA;
   try {
     const raw = window.localStorage.getItem(CLAVE);
-    if (!raw) return [];
+    if (!raw) {
+      window.localStorage.setItem(CLAVE, JSON.stringify(SEMILLA));
+      return SEMILLA;
+    }
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as Proyecto[]) : [];
+    return Array.isArray(parsed) ? (parsed as Proyecto[]) : SEMILLA;
   } catch {
-    return [];
+    return SEMILLA;
   }
 }
 
-function guardarCreados(lista: Proyecto[]) {
+function guardarTodos(lista: Proyecto[]) {
   try {
     window.localStorage.setItem(CLAVE, JSON.stringify(lista));
   } catch {
-    // Si el navegador bloquea localStorage, seguimos en memoria sin romper nada.
+    // El navegador bloqueó el guardado (casi siempre: espacio lleno).
+    avisarSinEspacio();
   }
 }
 
-// Lista completa: primero los que tú creaste, luego los de ejemplo.
-export function cargarProyectos(): Proyecto[] {
-  return [...leerCreados(), ...SEMILLA];
-}
-
-export function obtenerProyectoLocal(id: string): Proyecto | undefined {
-  return cargarProyectos().find((p) => p.id === id);
-}
-
-// Construye y guarda un proyecto nuevo a partir de lo que escribió el usuario.
-export function crearProyecto(input: NuevoProyectoInput): Proyecto {
-  const id = `local-${Date.now()}`;
-  const hoy = new Date().toISOString().slice(0, 10);
+export function crearProyecto(datos: ProyectoInput, id?: string): Proyecto {
   const nuevo: Proyecto = {
-    id,
-    titulo: input.titulo.trim(),
-    cliente: {
-      id: `c-${id}`,
-      nombre: input.clienteNombre.trim(),
-      email: "",
-      telefono: "",
-    },
-    tienda: input.tienda,
-    estado: "borrador",
-    medidas: "",
-    madera: "",
-    tela: "",
-    acabado: "",
-    notas: "",
-    referencias: 0,
-    tieneModelo3d: false,
-    creadoEn: hoy,
+    ...datos,
+    id: id ?? `p-${Date.now()}`,
+    estado: "nuevo",
+    creadoEn: hoy(),
   };
-  guardarCreados([nuevo, ...leerCreados()]);
+  guardarTodos([nuevo, ...leerTodos()]);
   return nuevo;
 }
 
-// Hook para la lista: arranca con la semilla (igual en servidor y cliente, sin
-// parpadeos de hidratación) y carga lo guardado en cuanto monta en el navegador.
+export function actualizarProyecto(
+  id: string,
+  cambios: Partial<Proyecto>,
+): Proyecto | undefined {
+  const lista = leerTodos();
+  const idx = lista.findIndex((p) => p.id === id);
+  if (idx === -1) return undefined;
+  const actualizado = { ...lista[idx], ...cambios, id };
+  lista[idx] = actualizado;
+  guardarTodos(lista);
+  return actualizado;
+}
+
+export function eliminarProyecto(id: string) {
+  guardarTodos(leerTodos().filter((p) => p.id !== id));
+  // También sus fotos, para no dejar basura ocupando espacio.
+  eliminarArchivosDe(id);
+}
+
+export function obtenerProyecto(id: string): Proyecto | undefined {
+  return leerTodos().find((p) => p.id === id);
+}
+
+// ——— Hook para la LISTA de proyectos ———————————————————————————————
+// Arranca vacío y carga lo guardado en cuanto monta. Así un proyecto de
+// ejemplo que borraste no "reaparece" ni un instante en la lista.
 export function useProyectos() {
-  const [proyectos, setProyectos] = useState<Proyecto[]>(SEMILLA);
+  const [proyectos, setProyectos] = useState<Proyecto[] | null>(null);
 
   useEffect(() => {
-    setProyectos(cargarProyectos());
+    setProyectos(leerTodos());
   }, []);
 
-  function agregar(input: NuevoProyectoInput): Proyecto {
-    const nuevo = crearProyecto(input);
-    setProyectos((prev) => [nuevo, ...prev]);
-    return nuevo;
+  return { proyectos: proyectos ?? [], cargado: proyectos !== null };
+}
+
+// ——— Hook para UN proyecto (página de detalle, ficha, editar) ————————
+export function useProyecto(id: string) {
+  const [proyecto, setProyecto] = useState<Proyecto | undefined>(undefined);
+  const [cargado, setCargado] = useState(false);
+
+  useEffect(() => {
+    setProyecto(obtenerProyecto(id));
+    setCargado(true);
+  }, [id]);
+
+  function actualizar(cambios: Partial<Proyecto>) {
+    const nuevo = actualizarProyecto(id, cambios);
+    if (nuevo) setProyecto(nuevo);
   }
 
-  return { proyectos, agregar };
+  function cambiarEstado(estado: EstadoProyecto) {
+    // Al enviar a logística guardamos también la fecha del PRIMER envío
+    // (volver a pulsar el botón no la cambia).
+    if (estado === "enviado_logistica") {
+      actualizar({ estado, enviadoEn: proyecto?.enviadoEn ?? hoy() });
+    } else {
+      actualizar({ estado });
+    }
+  }
+
+  return { proyecto, cargado, actualizar, cambiarEstado };
 }

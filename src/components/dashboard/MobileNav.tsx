@@ -19,7 +19,7 @@ export function MobileNav() {
   }, [pathname]);
 
   return (
-    <div className="md:hidden border-b border-stone-200 bg-white">
+    <div className="md:hidden border-b border-stone-200 bg-white print:hidden">
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-2">
           <div className="grid h-7 w-7 place-items-center rounded-lg bg-marca text-white">

@@ -1,9 +1,10 @@
 // ============================================================================
 //  CONEXIÓN A SUPABASE (lado navegador) — listo para la siguiente fase.
 // ----------------------------------------------------------------------------
-//  Por ahora la app usa datos de ejemplo (src/lib/mock-data.ts) y este archivo
-//  NO se utiliza todavía. Cuando creemos tu proyecto en Supabase, pondremos las
-//  claves en el archivo ".env.local" y empezaremos a usar esta función.
+//  Por ahora la app guarda todo en el navegador (src/lib/proyectos-store.ts) y
+//  este archivo NO se utiliza todavía. En la fase del portal del cliente
+//  crearemos el proyecto en Supabase, pondremos las claves en ".env.local" y
+//  empezaremos a usar esta función.
 // ============================================================================
 import { createClient } from "@supabase/supabase-js";
 

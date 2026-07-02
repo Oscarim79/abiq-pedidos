@@ -11,6 +11,7 @@
 //  archivo se podrá retirar.
 // ============================================================================
 import { useEffect, useState } from "react";
+import { avisarSinEspacio } from "@/lib/aviso-espacio";
 
 export type ArchivoRef = {
   id: string;
@@ -41,8 +42,18 @@ function guardar(proyectoId: string, lista: ArchivoRef[]) {
   try {
     window.localStorage.setItem(clave(proyectoId), JSON.stringify(lista));
   } catch {
-    // Si el navegador se queda sin espacio, seguimos mostrándolas en pantalla
-    // aunque no se guarden. No rompemos nada.
+    // El navegador bloqueó el guardado (casi siempre: espacio lleno).
+    avisarSinEspacio();
+  }
+}
+
+// Borra TODAS las fotos de un proyecto (se usa al eliminar el proyecto o al
+// cancelar uno nuevo, para no dejar basura ocupando espacio).
+export function eliminarArchivosDe(proyectoId: string) {
+  try {
+    window.localStorage.removeItem(clave(proyectoId));
+  } catch {
+    // Sin permiso de localStorage no hay nada que borrar.
   }
 }
 

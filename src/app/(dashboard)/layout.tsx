@@ -12,7 +12,7 @@ export default function DashboardLayout({
       <div className="flex-1 min-w-0">
         {/* Barra superior con menú, solo en móvil (la lateral se oculta ahí) */}
         <MobileNav />
-        <main className="p-5 md:p-8">{children}</main>
+        <main className="p-5 md:p-8 print:p-0">{children}</main>
       </div>
     </div>
   );

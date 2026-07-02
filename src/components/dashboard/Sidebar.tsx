@@ -10,7 +10,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden md:flex w-60 shrink-0 flex-col border-r border-stone-200 bg-white">
+    <aside className="hidden md:flex w-60 shrink-0 flex-col border-r border-stone-200 bg-white print:hidden">
       <div className="flex items-center gap-2 px-5 py-4 border-b border-stone-100">
         <div className="grid h-8 w-8 place-items-center rounded-lg bg-marca text-white">
           <Package size={18} />
@@ -42,7 +42,7 @@ export function Sidebar() {
       </nav>
 
       <div className="border-t border-stone-100 px-5 py-3 text-xs text-stone-400">
-        Jefe de Tienda · Tienda Norte
+        Panel del vendedor
       </div>
     </aside>
   );

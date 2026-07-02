@@ -1,20 +1,20 @@
 # Guía rápida de AbiQ
 
-_Guía sencilla para usar la app. Actualizada: 23 de junio de 2026._
+_Guía sencilla para usar la app. Actualizada: 2 de julio de 2026._
 
 ---
 
 ## ⚠️ Lo más importante de entender
 
-Hoy AbiQ es una **demo que funciona de verdad**, pero **todo se guarda solo en tu
-navegador** (todavía no hay base de datos en internet). Esto significa:
+Hoy AbiQ es una **demo que funciona de verdad**, pero **todo se guarda solo en
+tu navegador** (todavía no hay base de datos en internet). Esto significa:
 
-- Los proyectos, fotos y modelos 3D que creas **se quedan en este equipo y este navegador**.
+- Los proyectos, fotos y firmas que creas **se quedan en este equipo y este navegador**.
 - Si abres la app en otra computadora, **no aparecerán ahí**.
 - Si borras los datos del navegador, se pierden.
 
-👉 El guardado **real y compartido** (en la nube, entre dispositivos, con usuarios)
-llega en la siguiente fase grande: **conectar Supabase**.
+👉 El guardado **real y compartido** (en la nube, entre dispositivos, con
+usuarios del equipo) llega en la siguiente fase grande: **conectar Supabase**.
 
 ---
 
@@ -41,51 +41,87 @@ No se pierde nada: solo vuelve a abrir la terminal y escribe `npm run dev`.
 
 ---
 
-## 🧭 Moverte por la app
+## 🧭 Primer paso: configura los Ajustes
 
-- En pantalla **ancha**: la barra lateral izquierda (Proyectos, Kanban, Clientes, Ajustes).
-- En pantalla **angosta** o con zoom alto: usa el botón **☰** arriba a la derecha.
+Entra a **Ajustes** (barra lateral) y guarda:
+
+1. **El WhatsApp de logística**: con código de país, sin espacios ni signos
+   (ejemplo para México: `5215512345678`). Así el botón verde abre el chat
+   directo con ese contacto.
+2. **Tu nombre**: sale en el mensaje y en la ficha, para que logística sepa a
+   quién preguntarle.
 
 ---
 
-## 🗂️ Crear un proyecto
+## 🗂️ Capturar un pedido
 
 1. Entra a **Proyectos** y pulsa **"Nuevo proyecto"**.
-2. Escribe el título del mueble, el cliente y elige la tienda.
-3. Pulsa **"Crear proyecto"**. Aparece en la lista y se abre su página.
+2. Llena el formulario. Casi todo es **tocar botones**: madera, tela, acabado,
+   dirección de vetas, herrajes… Si el cliente pide algo que no está en la
+   lista, toca **"Otro…"** y escríbelo.
+3. Escribe las **medidas exactas** en centímetros (largo, alto, profundidad).
+4. En **Características especiales** describe lo que la fábrica necesita saber:
+   curvas, puertas laterales, interiores lisos, divisiones…
+5. **Arrastra las fotos** que trajo el cliente (o toca el recuadro para
+   elegirlas). Acepta JPG, PNG y PDF.
+6. Pulsa **"Crear proyecto"**.
 
 ---
 
-## 🖼️ Subir fotos del cliente
+## 📲 Enviar el pedido a logística
 
-Dentro de un proyecto, en la pestaña **"Carga directa"**:
+Dentro del proyecto, pulsa el botón verde **"Enviar a logística por WhatsApp"**:
 
-- **Arrastra** las fotos sobre el recuadro punteado, **o** haz clic en él (o en el botón **+**)
-  para elegirlas.
-- Acepta **JPG, PNG y PDF**.
-- Pasa el cursor sobre una foto y pulsa la **✕** para quitarla.
+- Se abre WhatsApp con el mensaje **ya escrito** con todas las especificaciones.
+- Solo revisa y pulsa enviar.
+- El proyecto pasa solo al estado **"Enviado a logística"**.
 
----
-
-## 🛋️ Subir el modelo 3D
-
-- El botón **"Subir modelo 3D"** acepta **solo archivos `.glb` o `.gltf`**
-  (los formatos 3D de la web).
-- Para probar al instante, pulsa **"Ver modelo de ejemplo"**: carga una silla de muestra
-  que puedes **rotar** (arrastrando) y acercar (rueda del ratón).
-
-### Sobre archivos `.max` (3ds Max)
-Un `.max` **no se puede usar en la web** — es un archivo del programa 3ds Max.
-Hay que **exportarlo a `.glb`** primero (en 3ds Max: _Archivo → Exportar → glTF Binary (.glb)_).
-Ese `.glb` sí lo puedes subir.
+> 📷 **Las fotos no viajan solas**: WhatsApp no permite adjuntarlas
+> automáticamente. Adjúntalas en el mismo chat, o mejor: imprime la **ficha**
+> como PDF (ver abajo) y mándala en el chat — ahí van las fotos incluidas.
 
 ---
 
-## 🚧 Lo que todavía falta
+## 🖨️ La ficha de una sola hoja
 
-- El botón **"Guardar borrador"** aún no guarda los datos editados (medidas, madera, notas…).
-- **Siguiente fase grande — Supabase:** guardado real en la nube, inicio de sesión del equipo,
-  y que los enlaces de revisión del cliente funcionen de verdad.
+Dentro del proyecto, pulsa **"Ficha para imprimir"**:
+
+- Es el documento final para la fábrica: **todo el pedido en una sola hoja**,
+  con especificaciones, fotos y firma.
+- Pulsa **"Imprimir / Guardar PDF"**. En el diálogo elige tu impresora, o
+  **"Guardar como PDF"** para mandarla por WhatsApp o correo.
+
+---
+
+## ✍️ El visto bueno (firma)
+
+Dentro del proyecto, en la tarjeta **"Visto bueno"**:
+
+1. El cliente (o el responsable) **firma con el dedo** en la tableta/celular,
+   o con el mouse en la computadora.
+2. Escribe el nombre de quien firma y pulsa **"Guardar visto bueno"**.
+3. La firma queda guardada y **sale en la ficha impresa** — protege la orden.
+
+---
+
+## 🔄 El estado de cada pedido
+
+En la tarjeta **"Estado del pedido"** puedes cambiarlo tocando un botón:
+
+**Nuevo → Enviado a logística → En producción → Entregado** (o Cancelado)
+
+En la lista de Proyectos puedes **filtrar por estado** y **buscar** por nombre
+del mueble o del cliente.
+
+---
+
+## 🚧 Lo que viene después (fase 2)
+
+- **Supabase**: guardado en la nube, compartido entre el equipo, con cuentas
+  @aiqmuebles.com.
+- **Portal del cliente**: que el cliente vea avances, apruebe y comente.
+- **IA**: escribir la descripción y que la IA devuelva las especificaciones
+  técnicas ya ordenadas.
 
 ---
 
@@ -93,8 +129,7 @@ Ese `.glb` sí lo puedes subir.
 
 No necesitas esto para usar la app, pero por si acaso:
 
-- **Proyectos y fotos:** `localStorage` del navegador.
-- **Modelos 3D:** `IndexedDB` del navegador (aguanta archivos grandes).
-- **Modelo de ejemplo:** `public/silla-ejemplo.glb`.
-
-Cuando conectemos Supabase, todo esto pasará a guardarse en la nube.
+- **Proyectos, fotos, firmas y ajustes:** `localStorage` del navegador.
+- **Opciones de los botones (maderas, telas…):** `src/lib/catalogo.ts` —
+  editable con instrucciones dentro.
+- **Formato del mensaje de WhatsApp:** `src/lib/whatsapp.ts`.
