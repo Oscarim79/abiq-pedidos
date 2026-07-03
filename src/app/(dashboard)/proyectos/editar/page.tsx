@@ -1,21 +1,31 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { ProyectoForm } from "@/components/proyectos/ProyectoForm";
 import { useProyecto, type ProyectoInput } from "@/lib/proyectos-store";
 import { useArchivos } from "@/lib/archivos-store";
 
+// El proyecto llega como "?id=..." en la dirección (ver detalle/page.tsx).
 export default function EditarProyectoPage() {
-  const params = useParams<{ id: string }>();
+  return (
+    <Suspense>
+      <EditarProyecto />
+    </Suspense>
+  );
+}
+
+function EditarProyecto() {
+  const id = useSearchParams().get("id") ?? "";
   const router = useRouter();
-  const { proyecto, cargado, actualizar } = useProyecto(params.id);
-  const { archivos, agregar, eliminar } = useArchivos(params.id);
+  const { proyecto, cargado, actualizar } = useProyecto(id);
+  const { archivos, agregar, eliminar } = useArchivos(id);
 
   function guardar(datos: ProyectoInput) {
     actualizar(datos);
-    router.push(`/proyectos/${params.id}`);
+    router.push(`/proyectos/detalle?id=${id}`);
   }
 
   if (!proyecto) {
@@ -38,7 +48,7 @@ export default function EditarProyectoPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <Link
-        href={`/proyectos/${proyecto.id}`}
+        href={`/proyectos/detalle?id=${proyecto.id}`}
         className="inline-flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700"
       >
         <ChevronLeft size={16} />
@@ -59,7 +69,7 @@ export default function EditarProyectoPage() {
         eliminarArchivo={eliminar}
         textoBoton="Guardar cambios"
         onGuardar={guardar}
-        onCancelar={() => router.push(`/proyectos/${proyecto.id}`)}
+        onCancelar={() => router.push(`/proyectos/detalle?id=${proyecto.id}`)}
       />
     </div>
   );

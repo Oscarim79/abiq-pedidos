@@ -1,6 +1,32 @@
 # Guía rápida de AbiQ
 
-_Guía sencilla para usar la app. Actualizada: 2 de julio de 2026._
+_Guía sencilla para usar la app. Actualizada: 3 de julio de 2026._
+
+---
+
+## 🌐 Ver la app en internet (para compartir)
+
+La app está publicada aquí — este es el enlace para mandarle al vendedor:
+
+**https://oscarim79.github.io/abiq-pedidos/**
+
+- Funciona en celular y computadora, sin instalar nada.
+- Cada persona que la abre ve **sus propios datos** (más los 3 proyectos de
+  ejemplo): lo que el vendedor capture se guarda en **su** navegador, no en el
+  tuyo. Compartir datos de verdad llega con Supabase (fase 2).
+- El código del proyecto en GitHub es público (necesario para que la página
+  gratuita funcione). No contiene contraseñas ni datos de clientes.
+
+### Publicar cambios nuevos en la página
+
+Cuando la app cambie y quieras que el enlace muestre la versión nueva, en la
+terminal (dentro de la carpeta `Webapp-abiq`) escribe:
+
+```
+npm run deploy
+```
+
+O simplemente pídele a Claude: "publica la página".
 
 ---
 

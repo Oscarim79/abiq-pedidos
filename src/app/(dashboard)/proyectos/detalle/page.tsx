@@ -1,7 +1,8 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ChevronLeft,
   MessageCircle,
@@ -38,13 +39,22 @@ function Tarjeta({
   );
 }
 
+// El proyecto se identifica con "?id=..." en la dirección (y no con una ruta
+// tipo /proyectos/abc) porque GitHub Pages solo sirve páginas fijas. Next.js
+// pide envolver en Suspense a los componentes que leen la dirección.
 export default function ProyectoPage() {
-  const params = useParams<{ id: string }>();
-  const router = useRouter();
-  const { proyecto, cargado, actualizar, cambiarEstado } = useProyecto(
-    params.id,
+  return (
+    <Suspense>
+      <DetalleProyecto />
+    </Suspense>
   );
-  const { archivos, agregar, eliminar } = useArchivos(params.id);
+}
+
+function DetalleProyecto() {
+  const id = useSearchParams().get("id") ?? "";
+  const router = useRouter();
+  const { proyecto, cargado, actualizar, cambiarEstado } = useProyecto(id);
+  const { archivos, agregar, eliminar } = useArchivos(id);
   const { ajustes } = useAjustes();
 
   if (!proyecto) {
@@ -89,7 +99,7 @@ export default function ProyectoPage() {
       )
     )
       return;
-    eliminarProyecto(params.id);
+    eliminarProyecto(id);
     router.push("/proyectos");
   }
 
@@ -136,14 +146,14 @@ export default function ProyectoPage() {
           Enviar a logística por WhatsApp
         </button>
         <Link
-          href={`/proyectos/${proyecto.id}/ficha`}
+          href={`/proyectos/ficha?id=${proyecto.id}`}
           className="flex items-center gap-2 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-700 transition-colors hover:bg-stone-50"
         >
           <Printer size={16} />
           Ficha para imprimir
         </Link>
         <Link
-          href={`/proyectos/${proyecto.id}/editar`}
+          href={`/proyectos/editar?id=${proyecto.id}`}
           className="flex items-center gap-2 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-700 transition-colors hover:bg-stone-50"
         >
           <Pencil size={16} />

@@ -98,7 +98,7 @@ export function ProyectosLista() {
           return (
             <Link
               key={p.id}
-              href={`/proyectos/${p.id}`}
+              href={`/proyectos/detalle?id=${p.id}`}
               className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-stone-50"
             >
               <div className="min-w-0 flex-1">

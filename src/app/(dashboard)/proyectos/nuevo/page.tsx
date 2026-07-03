@@ -17,7 +17,7 @@ export default function NuevoProyectoPage() {
 
   function guardar(datos: ProyectoInput) {
     crearProyecto(datos, borradorId);
-    router.push(`/proyectos/${borradorId}`);
+    router.push(`/proyectos/detalle?id=${borradorId}`);
   }
 
   function cancelar() {

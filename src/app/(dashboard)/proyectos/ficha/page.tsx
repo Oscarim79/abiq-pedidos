@@ -1,7 +1,8 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ChevronLeft, Package, Printer } from "lucide-react";
 import { estadoInfo } from "@/lib/estados";
 import { useProyecto } from "@/lib/proyectos-store";
@@ -17,10 +18,19 @@ import { listaEspecificaciones } from "@/lib/especificaciones";
 //  PDF (en el diálogo de impresión elige "Guardar como PDF").
 // ============================================================================
 
+// El proyecto llega como "?id=..." en la dirección (ver detalle/page.tsx).
 export default function FichaPage() {
-  const params = useParams<{ id: string }>();
-  const { proyecto, cargado } = useProyecto(params.id);
-  const { archivos } = useArchivos(params.id);
+  return (
+    <Suspense>
+      <Ficha />
+    </Suspense>
+  );
+}
+
+function Ficha() {
+  const id = useSearchParams().get("id") ?? "";
+  const { proyecto, cargado } = useProyecto(id);
+  const { archivos } = useArchivos(id);
   const { ajustes } = useAjustes();
 
   if (!proyecto) {
@@ -50,7 +60,7 @@ export default function FichaPage() {
       {/* Barra superior — no sale en la impresión */}
       <div className="mb-4 flex items-center justify-between print:hidden">
         <Link
-          href={`/proyectos/${proyecto.id}`}
+          href={`/proyectos/detalle?id=${proyecto.id}`}
           className="inline-flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700"
         >
           <ChevronLeft size={16} />
