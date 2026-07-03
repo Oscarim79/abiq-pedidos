@@ -1,0 +1,16 @@
+/node_modules
+/.next
+/out
+/build
+.env*.local
+.env
+*.log
+.DS_Store
+next-env.d.ts
+.vercel
+*.tsbuildinfo
+
+# Archivos fuente de 3D pesados (no usados en la web; se editan en 3ds Max)
+*.max
+*.rar
+.dev-server.log
