@@ -1,17 +1,19 @@
 "use client";
 
 // ============================================================================
-//  ARCHIVOS POR PROYECTO (demo, sin base de datos todavía)
+//  ARCHIVOS POR PROYECTO (navegador + nube)
 // ----------------------------------------------------------------------------
-//  Guarda las fotos/planos que arrastras o subes en cada proyecto, dentro del
-//  navegador (localStorage). Las imágenes se reducen a una miniatura pequeña
-//  antes de guardarlas para no llenar el almacenamiento.
+//  Guarda las fotos/planos que arrastras o subes en cada proyecto. Las
+//  imágenes se reducen a una miniatura pequeña antes de guardarlas.
 //
-//  En la fase de Supabase, los archivos reales irán a Supabase Storage y este
-//  archivo se podrá retirar.
+//  Desde la fase 2: el navegador (localStorage) es la copia rápida local y,
+//  si la nube está configurada, cada cambio se sube también a Supabase para
+//  que las demás tiendas vean las mismas fotos.
 // ============================================================================
 import { useEffect, useState } from "react";
 import { avisarSinEspacio } from "@/lib/aviso-espacio";
+import { avisarSinNube } from "@/lib/aviso-nube";
+import { supabase } from "@/lib/supabase";
 
 export type ArchivoRef = {
   id: string;
@@ -55,6 +57,43 @@ export function eliminarArchivosDe(proyectoId: string) {
   } catch {
     // Sin permiso de localStorage no hay nada que borrar.
   }
+  // En la nube: si el proyecto se borra, sus archivos caen solos (cascade);
+  // esto cubre el caso del borrador cancelado. Ignoramos errores a propósito.
+  void supabase?.from("archivos").delete().eq("proyecto_id", proyectoId);
+}
+
+// ——— Sincronización con la nube ————————————————————————————————————————
+// Sube la lista local de archivos de un proyecto. Si el proyecto todavía no
+// existe en la nube (fotos de un borrador sin guardar), falla en silencio:
+// `empujarProyecto` la vuelve a subir en cuanto el proyecto se crea.
+export async function empujarArchivosDe(proyectoId: string) {
+  if (!supabase) return;
+  const { error } = await supabase.from("archivos").upsert({
+    proyecto_id: proyectoId,
+    data: leer(proyectoId),
+    actualizado_en: new Date().toISOString(),
+  });
+  // 23503 = el proyecto aún no existe en la nube (borrador). Es esperado.
+  if (error && error.code !== "23503") avisarSinNube();
+}
+
+// Trae de la nube la lista de archivos de un proyecto (si existe allá) y la
+// deja también en el navegador. Devuelve null si no hay nube o no hay fila.
+async function jalarArchivosDe(proyectoId: string): Promise<ArchivoRef[] | null> {
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from("archivos")
+    .select("data")
+    .eq("proyecto_id", proyectoId)
+    .maybeSingle();
+  if (error) {
+    avisarSinNube();
+    return null;
+  }
+  if (!data) return null;
+  const lista = Array.isArray(data.data) ? (data.data as ArchivoRef[]) : [];
+  guardar(proyectoId, lista);
+  return lista;
 }
 
 // Reduce una imagen a una miniatura JPEG pequeña usando un canvas.
@@ -107,13 +146,20 @@ async function refsDesdeArchivos(files: File[]): Promise<ArchivoRef[]> {
   return salida;
 }
 
-// Hook para usar dentro de un proyecto: lee lo guardado al montar y deja
-// agregar/eliminar archivos, persistiendo en el navegador.
+// Hook para usar dentro de un proyecto: muestra al instante lo del navegador
+// y, si hay nube, trae la versión compartida en cuanto llega.
 export function useArchivos(proyectoId: string) {
   const [archivos, setArchivos] = useState<ArchivoRef[]>([]);
 
   useEffect(() => {
     setArchivos(leer(proyectoId));
+    let activo = true;
+    void jalarArchivosDe(proyectoId).then((lista) => {
+      if (activo && lista) setArchivos(lista);
+    });
+    return () => {
+      activo = false;
+    };
   }, [proyectoId]);
 
   async function agregar(files: File[]) {
@@ -125,6 +171,7 @@ export function useArchivos(proyectoId: string) {
     setArchivos((prev) => {
       const actualizado = [...prev, ...nuevos];
       guardar(proyectoId, actualizado);
+      void empujarArchivosDe(proyectoId);
       return actualizado;
     });
   }
@@ -133,6 +180,7 @@ export function useArchivos(proyectoId: string) {
     setArchivos((prev) => {
       const actualizado = prev.filter((a) => a.id !== id);
       guardar(proyectoId, actualizado);
+      void empujarArchivosDe(proyectoId);
       return actualizado;
     });
   }

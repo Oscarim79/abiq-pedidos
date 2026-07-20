@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { Package } from "lucide-react";
+import { LogOut, Package } from "lucide-react";
 import { navItems as items } from "./nav-items";
+import { cerrarSesion, useSesion } from "@/lib/sesion";
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { sesion } = useSesion();
 
   return (
     <aside className="hidden md:flex w-60 shrink-0 flex-col border-r border-stone-200 bg-white print:hidden">
@@ -42,7 +44,24 @@ export function Sidebar() {
       </nav>
 
       <div className="border-t border-stone-100 px-5 py-3 text-xs text-stone-400">
-        Panel del vendedor
+        {sesion ? (
+          <div className="flex items-center justify-between gap-2">
+            <span className="truncate" title={sesion.user.email}>
+              {sesion.user.email}
+            </span>
+            <button
+              type="button"
+              onClick={() => cerrarSesion()}
+              title="Cerrar sesión"
+              aria-label="Cerrar sesión"
+              className="shrink-0 rounded p-1 text-stone-400 transition-colors hover:bg-stone-50 hover:text-stone-600"
+            >
+              <LogOut size={15} />
+            </button>
+          </div>
+        ) : (
+          "Panel del vendedor"
+        )}
       </div>
     </aside>
   );

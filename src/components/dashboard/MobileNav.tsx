@@ -4,13 +4,15 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { Package, Menu, X } from "lucide-react";
+import { LogOut, Package, Menu, X } from "lucide-react";
 import { navItems as items } from "./nav-items";
+import { cerrarSesion, useSesion } from "@/lib/sesion";
 
 // Barra superior + menú desplegable para pantallas angostas (< md), donde la
 // barra lateral se oculta. Sin esto, no habría forma de navegar entre secciones.
 export function MobileNav() {
   const pathname = usePathname();
+  const { sesion } = useSesion();
   const [abierto, setAbierto] = useState(false);
 
   // Cierra el menú al cambiar de ruta (después de pulsar un enlace).
@@ -61,6 +63,16 @@ export function MobileNav() {
               </Link>
             );
           })}
+          {sesion && (
+            <button
+              type="button"
+              onClick={() => cerrarSesion()}
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-600 transition-colors hover:bg-stone-50"
+            >
+              <LogOut size={18} />
+              Cerrar sesión
+            </button>
+          )}
         </nav>
       )}
     </div>
