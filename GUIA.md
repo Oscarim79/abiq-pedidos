@@ -1,21 +1,42 @@
 # Guía rápida de AbiQ
 
-_Guía sencilla para usar la app. Actualizada: 20 de julio de 2026._
+_Guía sencilla para usar la app. Actualizada: 20 de julio de 2026 (fase 2)._
 
 ---
 
 ## 🌐 Ver la app en internet (para compartir)
 
-La app está publicada aquí — este es el enlace para mandarle al vendedor:
+La app está publicada aquí — este es el enlace para mandarle a los vendedores:
 
 **https://oscarim79.github.io/abiq-pedidos/**
 
 - Funciona en celular y computadora, sin instalar nada.
-- Cada persona que la abre ve **sus propios datos** (más los 3 proyectos de
-  ejemplo): lo que el vendedor capture se guarda en **su** navegador, no en el
-  tuyo. Compartir datos de verdad llega con Supabase (fase 2).
+- **Desde la fase 2, los pedidos son compartidos:** todos los que entran con
+  una cuenta del equipo ven **el mismo registro** — los pedidos de
+  ABIQ-Cayala, ABIQ-Oakland, ABIQ-Pradera y ABIQ-Chiquimula juntos.
+- Para entrar hace falta **una cuenta del equipo** (correo y contraseña).
+  Las cuentas las creas tú (ver "Cuentas del equipo" abajo). Sin cuenta,
+  nadie puede ver nada, aunque tenga el enlace.
 - El código del proyecto en GitHub es público (necesario para que la página
   gratuita funcione). No contiene contraseñas ni datos de clientes.
+
+## 👤 Cuentas del equipo (las creas tú)
+
+Las cuentas se manejan en **supabase.com** → tu proyecto `abiq` →
+**Authentication** → **Users**:
+
+- **Crear una cuenta:** botón **Add user** → **Create new user** → escribe
+  correo y contraseña → **marca la casilla "Auto Confirm User"** (sin eso no
+  podrán entrar) → Create.
+- **Borrar una cuenta** (ej. si alguien deja el equipo): en la lista de
+  Users, menú de tres puntos → **Delete user**. Deja de poder entrar al
+  instante.
+- **Contraseña olvidada:** lo más simple es borrar esa cuenta y crearla de
+  nuevo con una contraseña nueva (los pedidos no se pierden: no pertenecen
+  a la cuenta, son del equipo).
+- ⚠️ La opción **"Allow new users to sign up"** (en Sign In / Providers)
+  debe quedarse **APAGADA** siempre: es lo que impide que extraños se creen
+  cuentas.
 
 ### Publicar cambios nuevos en la página
 
@@ -32,15 +53,17 @@ O simplemente pídele a Claude: "publica la página".
 
 ## ⚠️ Lo más importante de entender
 
-Hoy AbiQ es una **demo que funciona de verdad**, pero **todo se guarda solo en
-tu navegador** (todavía no hay base de datos en internet). Esto significa:
+Desde la fase 2, **los pedidos se guardan en la nube** (Supabase) y se
+comparten entre todas las tiendas:
 
-- Los proyectos, fotos y firmas que creas **se quedan en este equipo y este navegador**.
-- Si abres la app en otra computadora, **no aparecerán ahí**.
-- Si borras los datos del navegador, se pierden.
-
-👉 El guardado **real y compartido** (en la nube, entre dispositivos, con
-usuarios del equipo) llega en la siguiente fase grande: **conectar Supabase**.
+- Cada pedido, foto y firma se guarda en la base de datos en internet **y**
+  en el navegador (copia rápida, para que la lista abra al instante).
+- Si se va el internet en la tienda, el pedido **no se pierde**: queda en el
+  dispositivo y la app avisa; al volver a abrir y guardar con internet, sube.
+- Al abrir la app se traen los pedidos de las demás tiendas. Si estás con la
+  app abierta y otra tienda captura algo, **recarga la página** para verlo.
+- Los cambios de estado (nuevo → enviado → en producción → entregado)
+  también se comparten: todos ven lo mismo.
 
 ---
 
@@ -142,10 +165,10 @@ del mueble o del cliente.
 
 ---
 
-## 🚧 Lo que viene después (fase 2)
+## 🚧 Lo que viene después (fase 3)
 
-- **Supabase**: guardado en la nube, compartido entre el equipo, con cuentas
-  @aiqmuebles.com.
+- ✅ ~~Supabase: guardado en la nube compartido entre el equipo~~ — **hecho**
+  (fase 2, julio 2026).
 - **Portal del cliente**: que el cliente vea avances, apruebe y comente.
 - **IA**: escribir la descripción y que la IA devuelva las especificaciones
   técnicas ya ordenadas.
@@ -156,7 +179,15 @@ del mueble o del cliente.
 
 No necesitas esto para usar la app, pero por si acaso:
 
-- **Proyectos, fotos, firmas y ajustes:** `localStorage` del navegador.
+- **Proyectos, fotos y firmas:** en la nube (Supabase, proyecto `abiq`) y
+  copia rápida en el `localStorage` del navegador.
+- **Ajustes (número de logística y nombre del vendedor):** solo en el
+  navegador de cada dispositivo — cada vendedor configura el suyo una vez.
+- **Claves de conexión a la nube:** archivo `.env.local` (solo en tu
+  computadora; no sube a GitHub). Sin él, `npm run deploy` publicaría la
+  app desconectada de la nube.
+- **Plano de la base de datos:** `supabase/schema.sql`.
 - **Opciones de los botones (maderas, telas…):** `src/lib/catalogo.ts` —
   editable con instrucciones dentro.
 - **Formato del mensaje de WhatsApp:** `src/lib/whatsapp.ts`.
+- **Estado de la fase 2:** `FASE2.md`.

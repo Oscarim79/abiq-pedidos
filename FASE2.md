@@ -22,29 +22,22 @@ internet** (Supabase), y:
 | 3 | Ejecutar `supabase/schema.sql` en el SQL Editor de Supabase | Oscar | ✅ Hecho (verificado: tablas y RLS funcionan) |
 | 4 | Copiar las 2 claves al archivo `.env.local` | Oscar | ✅ Hecho (conexión probada) |
 | 5 | Pantalla de inicio de sesión + sincronización con la nube (código) | Claude | ✅ Hecho (2026-07-20) |
-| 6 | Cerrar el registro público + crear las cuentas del equipo en el panel | **Oscar** | ⬜ Pendiente |
-| 7 | Prueba completa con cuenta real (entrar, crear pedido, verlo en la nube) | Claude (con Oscar) | ⬜ Pendiente |
-| 8 | Publicar y actualizar la GUIA | Claude | ⬜ Pendiente |
+| 6 | Cerrar el registro público + crear las cuentas del equipo en el panel | Oscar | ✅ Hecho (registro verificado cerrado) |
+| 7 | Prueba completa con cuenta real (entrar, crear pedido, verlo en la nube) | Claude | ✅ Hecho (2026-07-20, todas las pruebas pasaron) |
+| 8 | Publicar y actualizar la GUIA | Claude | ✅ Hecho — **fase 2 EN VIVO** (verificado en la URL pública) |
 
-## La tarea de Oscar (paso 6, unos 5 minutos en supabase.com)
+## ✅ Fase 2 terminada (2026-07-20)
 
-Todo se hace en **Authentication** (menú izquierdo del panel de Supabase):
+Pruebas realizadas y superadas: entrar con cuenta / rechazo sin cuenta o con
+contraseña mala / crear pedido → aparece en la nube / abrir en "equipo
+limpio" → el pedido baja de la nube / cambio de estado sincronizado /
+eliminar → se borra también de la nube (con sus fotos) / cerrar sesión /
+registro público cerrado (verificado con intento real de alta).
 
-1. **Cerrar el registro público** (imprescindible antes de publicar):
-   en Authentication busca la sección de **Sign In / Providers** y APAGA la
-   opción **"Allow new users to sign up"** → Save. Sin esto, cualquiera con
-   el link podría crearse una cuenta y ver los pedidos.
-2. **Borrar la cuenta de prueba:** en **Users** aparece
-   `prueba.abiq.borrar.2026@gmail.com` (la creó Claude para probar la
-   seguridad). Menú de los tres puntos → **Delete user**.
-3. **Crear las cuentas reales:** en **Users** → **Add user** →
-   **Create new user**: correo y contraseña para ti y para cada vendedor
-   (una por tienda o una por persona, como prefieras). **Marca la casilla
-   "Auto Confirm User"** en cada una — sin eso no podrán entrar.
-
-Después: abre la app (la pantalla nueva de "Entrar al panel"), escribe TÚ
-tu correo y contraseña ahí (nunca en el chat) y dile a Claude "ya entré"
-para que haga la prueba completa y publique.
+**Pendiente menor para Oscar:** borrar en Authentication → Users la cuenta
+de prueba `prueba@abiqmuebles.com` (ya no se necesita; el archivo local con
+su contraseña ya fue eliminado). Y si no lo hizo antes: borrar también
+`prueba.abiq.borrar.2026@gmail.com`.
 
 ## Cómo quedó funcionando la app (fase 2)
 
