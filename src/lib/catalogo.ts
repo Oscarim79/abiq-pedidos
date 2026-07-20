@@ -9,7 +9,12 @@
 //  puede escribirlo a mano en el campo "Otro".
 // ============================================================================
 
-export const TIENDAS = ["Tienda Norte", "Tienda Centro"];
+export const TIENDAS = [
+  "ABIQ-Cayala",
+  "ABIQ-Oakland",
+  "ABIQ-Pradera",
+  "ABIQ-Chiquimula",
+];
 
 export const TIPOS_MUEBLE = [
   "Clóset",
