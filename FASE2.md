@@ -18,39 +18,45 @@ internet** (Supabase), y:
 | # | Paso | Quién | Estado |
 |---|------|-------|--------|
 | 1 | Preparar el código base (librería, conexión, plano de la base de datos) | Claude | ✅ Hecho |
-| 2 | Crear la cuenta y el proyecto en supabase.com | **Oscar** | ⬜ Pendiente |
-| 3 | Ejecutar `supabase/schema.sql` en el SQL Editor de Supabase | **Oscar** (copiar y pegar) | ⬜ Pendiente |
-| 4 | Copiar las 2 claves al archivo `.env.local` | **Oscar** | ⬜ Pendiente |
-| 5 | Pantalla de inicio de sesión + crear las cuentas del equipo | Claude (con Oscar) | ⬜ Pendiente |
-| 6 | Conectar proyectos, fotos y firmas a la nube (adiós libretas separadas) | Claude | ⬜ Pendiente |
-| 7 | Probar todo, publicar y actualizar la GUIA | Claude | ⬜ Pendiente |
+| 2 | Crear la cuenta y el proyecto en supabase.com | Oscar | ✅ Hecho (2026-07-20) |
+| 3 | Ejecutar `supabase/schema.sql` en el SQL Editor de Supabase | Oscar | ✅ Hecho (verificado: tablas y RLS funcionan) |
+| 4 | Copiar las 2 claves al archivo `.env.local` | Oscar | ✅ Hecho (conexión probada) |
+| 5 | Pantalla de inicio de sesión + sincronización con la nube (código) | Claude | ✅ Hecho (2026-07-20) |
+| 6 | Cerrar el registro público + crear las cuentas del equipo en el panel | **Oscar** | ⬜ Pendiente |
+| 7 | Prueba completa con cuenta real (entrar, crear pedido, verlo en la nube) | Claude (con Oscar) | ⬜ Pendiente |
+| 8 | Publicar y actualizar la GUIA | Claude | ⬜ Pendiente |
 
-## La tarea de Oscar (pasos 2 a 4, unos 10 minutos)
+## La tarea de Oscar (paso 6, unos 5 minutos en supabase.com)
 
-1. **Crear la cuenta:** entra a **https://supabase.com** → "Start your project"
-   → regístrate (puedes usar tu cuenta de GitHub `Oscarim79`, es lo más fácil).
-2. **Crear el proyecto:** botón "New project" →
-   - Nombre: `abiq`
-   - Database password: inventa una contraseña fuerte y **guárdala en tu
-     gestor de contraseñas** (casi nunca se vuelve a usar, pero no se puede
-     recuperar).
-   - Región: `East US (North Virginia)` (la más cercana a Guatemala).
-   - Plan: **Free** (gratis, más que suficiente para empezar).
-3. **Crear las tablas:** menú izquierdo → **SQL Editor** → "New query" →
-   abre el archivo `supabase/schema.sql` de esta carpeta, copia TODO su
-   contenido, pégalo ahí y pulsa **Run**. Debe decir "Success".
-4. **Copiar las claves:** menú izquierdo → **Project Settings** → **API** →
-   copia estos dos valores al archivo `.env.local` de esta carpeta (ábrelo
-   con el Bloc de notas; ya tiene instrucciones adentro):
-   - "Project URL"
-   - la llave "anon public" (en paneles nuevos se llama "publishable")
+Todo se hace en **Authentication** (menú izquierdo del panel de Supabase):
 
-   ⚠️ **Nunca pegues claves en el chat de Claude** — van solo en `.env.local`.
-   ⚠️ La llave **service_role no se copia a ningún lado**: esa sí es secreta.
+1. **Cerrar el registro público** (imprescindible antes de publicar):
+   en Authentication busca la sección de **Sign In / Providers** y APAGA la
+   opción **"Allow new users to sign up"** → Save. Sin esto, cualquiera con
+   el link podría crearse una cuenta y ver los pedidos.
+2. **Borrar la cuenta de prueba:** en **Users** aparece
+   `prueba.abiq.borrar.2026@gmail.com` (la creó Claude para probar la
+   seguridad). Menú de los tres puntos → **Delete user**.
+3. **Crear las cuentas reales:** en **Users** → **Add user** →
+   **Create new user**: correo y contraseña para ti y para cada vendedor
+   (una por tienda o una por persona, como prefieras). **Marca la casilla
+   "Auto Confirm User"** en cada una — sin eso no podrán entrar.
 
-5. Cuando termines, abre una sesión y di: **"listo, seguimos con Supabase"**.
-   Claude conecta la app, crea la pantalla de inicio de sesión contigo y
-   prueba todo antes de publicar.
+Después: abre la app (la pantalla nueva de "Entrar al panel"), escribe TÚ
+tu correo y contraseña ahí (nunca en el chat) y dile a Claude "ya entré"
+para que haga la prueba completa y publique.
+
+## Cómo quedó funcionando la app (fase 2)
+
+- **Con nube configurada:** al abrir pide iniciar sesión. El navegador
+  sigue siendo la copia rápida (la lista aparece al instante) y la nube es
+  el registro compartido: al abrir la app se trae lo de las demás tiendas.
+  La primera vez, los pedidos reales que ya estaban en ese navegador se
+  suben solos (los 3 de ejemplo no se suben).
+- **Sin nube configurada** (`.env.local` vacío): la app funciona como la
+  fase 1, solo en ese navegador, con los ejemplos de demostración.
+- Si falla el internet al guardar: el cambio queda en el dispositivo y la
+  app avisa una sola vez (aviso-nube.ts).
 
 ## Notas técnicas (para Claude en la próxima sesión)
 
