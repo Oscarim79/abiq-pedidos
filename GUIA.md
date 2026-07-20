@@ -1,6 +1,6 @@
 # Guía rápida de AbiQ
 
-_Guía sencilla para usar la app. Actualizada: 3 de julio de 2026._
+_Guía sencilla para usar la app. Actualizada: 20 de julio de 2026._
 
 ---
 
@@ -82,7 +82,8 @@ Entra a **Ajustes** (barra lateral) y guarda:
 ## 🗂️ Capturar un pedido
 
 1. Entra a **Proyectos** y pulsa **"Nuevo proyecto"**.
-2. Llena el formulario. Casi todo es **tocar botones**: madera, tela, acabado,
+2. Llena el formulario. Primero elige tu **tienda** (ABIQ-Cayala, ABIQ-Oakland,
+   ABIQ-Pradera o ABIQ-Chiquimula). Casi todo lo demás es **tocar botones**: madera, tela, acabado,
    dirección de vetas, herrajes… Si el cliente pide algo que no está en la
    lista, toca **"Otro…"** y escríbelo.
 3. Escribe las **medidas exactas** en centímetros (largo, alto, profundidad).
