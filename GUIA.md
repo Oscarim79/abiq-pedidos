@@ -169,6 +169,14 @@ del mueble o del cliente.
 
 - ✅ ~~Supabase: guardado en la nube compartido entre el equipo~~ — **hecho**
   (fase 2, julio 2026).
+- **Logo de la empresa**: subirlo a la app para que aparezca en la pantalla
+  de entrada, la barra lateral y la ficha imprimible. (Oscar debe pasar el
+  archivo del logo — ponerlo en la carpeta del proyecto.)
+- **Nuevos roles del equipo**: cuentas para la **diseñadora de interiores**
+  y la **supervisora**. La supervisora debe tener visibilidad de TODOS los
+  proyectos — importante si algún día se limita la vista de los vendedores
+  a su propia tienda. (Nota: hoy cualquier cuenta ya ve todos los proyectos,
+  así que sus cuentas se pueden crear desde ya — ver "Cuentas del equipo".)
 - **Portal del cliente**: que el cliente vea avances, apruebe y comente.
 - **IA**: escribir la descripción y que la IA devuelva las especificaciones
   técnicas ya ordenadas.
