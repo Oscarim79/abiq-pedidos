@@ -10,7 +10,7 @@ _Última sesión: 21 de julio de 2026._
    lateral, el menú del celular y la ficha imprimible. Publicado con
    `npm run deploy` y verificado en la URL pública en vivo. El archivo
    queda en `public\logo.png` (la variante blanca, por si se necesita
-   sobre fondo oscuro, está en el chat de esta sesión).
+   sobre fondo oscuro, quedó guardada en `images\logo-blanco-fondo-negro.jpeg`).
 2. **Cuentas al día**: Oscar borró las cuentas de prueba en Supabase.
    Decisión: por ahora solo usa la app el **jefe de tienda** que recibe
    los pedidos (ya tiene su cuenta). Las cuentas de vendedores,
