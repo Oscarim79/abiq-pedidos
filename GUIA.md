@@ -34,6 +34,12 @@ Las cuentas se manejan en **supabase.com** → tu proyecto `abiq` →
 - **Contraseña olvidada:** lo más simple es borrar esa cuenta y crearla de
   nuevo con una contraseña nueva (los pedidos no se pierden: no pertenecen
   a la cuenta, son del equipo).
+- ⚠️ **NO uses "Send password recovery"** (el correo de resetear
+  contraseña): ese enlace lleva a `localhost:3000` (no funciona) y además
+  la app aún no tiene pantalla para escribir la contraseña nueva. Usa el
+  método de arriba (borrar y crear de nuevo). Si algún día se quiere el
+  reseteo por correo, hay que pedirle a Claude esa pantalla y cambiar la
+  "Site URL" en Supabase → Authentication → URL Configuration.
 - ⚠️ La opción **"Allow new users to sign up"** (en Sign In / Providers)
   debe quedarse **APAGADA** siempre: es lo que impide que extraños se creen
   cuentas.
