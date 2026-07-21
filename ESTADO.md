@@ -15,6 +15,11 @@ _Última sesión: 21 de julio de 2026._
    Decisión: por ahora solo usa la app el **jefe de tienda** que recibe
    los pedidos (ya tiene su cuenta). Las cuentas de vendedores,
    diseñadora y supervisora se crearán cuando se necesiten.
+3. **Contraseña de Oscar renovada**: el correo de "resetear contraseña"
+   de Supabase no sirve (lleva a localhost y la app no tiene pantalla
+   para eso) — se resolvió borrando y recreando su cuenta, y quedó
+   advertido en GUIA.md. Si algún día se quiere el reseteo por correo,
+   es una mini-mejora que puede hacer Claude.
 
 ## Sesión anterior (20 de julio)
 
