@@ -169,18 +169,17 @@ del mueble o del cliente.
 
 - ✅ ~~Supabase: guardado en la nube compartido entre el equipo~~ — **hecho**
   (fase 2, julio 2026).
-- **Logo de la empresa**: la app ya está preparada (desde el 21 de julio).
-  Solo falta el archivo: guarda el logo como `logo.png` dentro de la carpeta
-  `public` del proyecto (`Webapp-abiq\public\logo.png`) y publica con
-  `npm run deploy`. Aparecerá solo en la pantalla de entrada, la barra
-  lateral, el menú del celular y la ficha imprimible. Si el archivo es JPG
-  u otro formato, pásaselo a Claude y él lo convierte. Mientras no exista
-  el archivo, se sigue viendo la marca provisional de siempre.
-- **Nuevos roles del equipo**: cuentas para la **diseñadora de interiores**
-  y la **supervisora**. La supervisora debe tener visibilidad de TODOS los
-  proyectos — importante si algún día se limita la vista de los vendedores
-  a su propia tienda. (Nota: hoy cualquier cuenta ya ve todos los proyectos,
-  así que sus cuentas se pueden crear desde ya — ver "Cuentas del equipo".)
+- ✅ ~~Logo de la empresa~~ — **hecho** (21 de julio de 2026): el logo
+  ABI·Q aparece en la pantalla de entrada, la barra lateral, el menú del
+  celular y la ficha imprimible. El archivo vive en `public\logo.png`;
+  para cambiarlo algún día, basta reemplazar ese archivo y publicar.
+- **Nuevos roles del equipo**: por ahora solo usa la app el **jefe de
+  tienda** que recibe los pedidos (ya tiene su cuenta). Cuando se sumen
+  vendedores, la **diseñadora de interiores** o la **supervisora**, sus
+  cuentas se crean en un minuto — ver "Cuentas del equipo" arriba. La
+  supervisora debe tener visibilidad de TODOS los proyectos — importante
+  si algún día se limita la vista de los vendedores a su propia tienda
+  (hoy cualquier cuenta ya ve todos los proyectos).
 - **Portal del cliente**: que el cliente vea avances, apruebe y comente.
 - **IA**: escribir la descripción y que la IA devuelva las especificaciones
   técnicas ya ordenadas.

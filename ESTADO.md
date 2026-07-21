@@ -4,12 +4,17 @@ _Última sesión: 21 de julio de 2026._
 
 ## Qué se hizo hoy (21 de julio)
 
-1. **App preparada para el logo de la empresa**: cuando exista el archivo
-   `public\logo.png`, el logo aparecerá solo en la pantalla de entrada, la
-   barra lateral, el menú del celular y la ficha imprimible — sin tocar
-   código. Mientras no exista, se sigue viendo la marca provisional "AbiQ".
-   Verificado en el navegador con y sin logo, y compilación completa OK.
-   **Falta el archivo real del logo (lo tiene Oscar) y publicar.**
+1. **LOGO OFICIAL PUBLICADO** 🎉 — Oscar pasó las 2 variantes del logo
+   ABI·Q; se usó la negra (fondo transparente, recortada) porque las
+   pantallas son claras. Aparece en la pantalla de entrada, la barra
+   lateral, el menú del celular y la ficha imprimible. Publicado con
+   `npm run deploy` y verificado en la URL pública en vivo. El archivo
+   queda en `public\logo.png` (la variante blanca, por si se necesita
+   sobre fondo oscuro, está en el chat de esta sesión).
+2. **Cuentas al día**: Oscar borró las cuentas de prueba en Supabase.
+   Decisión: por ahora solo usa la app el **jefe de tienda** que recibe
+   los pedidos (ya tiene su cuenta). Las cuentas de vendedores,
+   diseñadora y supervisora se crearán cuando se necesiten.
 
 ## Sesión anterior (20 de julio)
 
@@ -41,16 +46,13 @@ _Última sesión: 21 de julio de 2026._
 
 ## Qué sigue (en orden)
 
-1. **Pendiente chico de Oscar:** borrar en Supabase → Authentication → Users
-   la cuenta `prueba@abiqmuebles.com` (y `prueba.abiq.borrar.2026@gmail.com`
-   si sigue ahí). Crear las cuentas reales de los vendedores si aún faltan.
-2. **Logo de la empresa** — la app ya está lista; solo falta que Oscar
-   entregue el archivo (guardarlo como `public\logo.png`, o pasárselo a
-   Claude para que lo coloque) y publicar con `npm run deploy`.
-3. **Cuentas de la diseñadora de interiores y la supervisora** — se pueden
-   crear ya (hoy toda cuenta ve todos los proyectos).
-4. **Fase 3 grande:** portal del cliente (ver avances, aprobar, comentar) y
-   luego IA para sintetizar especificaciones.
+1. **Cuentas nuevas cuando se necesiten** (vendedores, diseñadora,
+   supervisora): las crea Oscar en Supabase — pasos en GUIA.md, sección
+   "Cuentas del equipo".
+2. **Fase 3 grande:** portal del cliente (ver avances, aprobar, comentar) y
+   luego IA para sintetizar especificaciones. Oscar la retomará **cuando
+   tenga tiempo para enfocarse en ella** — antes de programar hay que
+   decidir juntos cómo entra el cliente a ver su pedido.
 
 ## Cómo retomar
 
