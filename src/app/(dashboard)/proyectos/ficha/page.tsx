@@ -3,7 +3,8 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ChevronLeft, Package, Printer } from "lucide-react";
+import { ChevronLeft, Printer } from "lucide-react";
+import { LogoEmpresa } from "@/components/LogoEmpresa";
 import { estadoInfo } from "@/lib/estados";
 import { useProyecto } from "@/lib/proyectos-store";
 import { useArchivos } from "@/lib/archivos-store";
@@ -80,15 +81,7 @@ function Ficha() {
       <div className="rounded-xl border border-stone-200 bg-white p-8 print:rounded-none print:border-0 print:p-0">
         {/* Encabezado */}
         <div className="flex items-start justify-between border-b border-stone-200 pb-4">
-          <div className="flex items-center gap-2">
-            <div className="grid h-9 w-9 place-items-center rounded-lg bg-marca text-white">
-              <Package size={20} />
-            </div>
-            <div>
-              <div className="font-semibold text-stone-800">AbiQ</div>
-              <div className="text-xs text-stone-500">Muebles a la medida</div>
-            </div>
-          </div>
+          <LogoEmpresa variante="ficha" subtitulo="Muebles a la medida" />
           <div className="text-right">
             <div className="text-sm font-semibold uppercase tracking-wide text-stone-800">
               Ficha de pedido

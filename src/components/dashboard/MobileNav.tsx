@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { LogOut, Package, Menu, X } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 import { navItems as items } from "./nav-items";
+import { LogoEmpresa } from "@/components/LogoEmpresa";
 import { cerrarSesion, useSesion } from "@/lib/sesion";
 
 // Barra superior + menú desplegable para pantallas angostas (< md), donde la
@@ -23,12 +24,7 @@ export function MobileNav() {
   return (
     <div className="md:hidden border-b border-stone-200 bg-white print:hidden">
       <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-2">
-          <div className="grid h-7 w-7 place-items-center rounded-lg bg-marca text-white">
-            <Package size={16} />
-          </div>
-          <span className="font-medium text-stone-800">AbiQ</span>
-        </div>
+        <LogoEmpresa variante="movil" />
         <button
           type="button"
           onClick={() => setAbierto((v) => !v)}

@@ -169,9 +169,13 @@ del mueble o del cliente.
 
 - ✅ ~~Supabase: guardado en la nube compartido entre el equipo~~ — **hecho**
   (fase 2, julio 2026).
-- **Logo de la empresa**: subirlo a la app para que aparezca en la pantalla
-  de entrada, la barra lateral y la ficha imprimible. (Oscar debe pasar el
-  archivo del logo — ponerlo en la carpeta del proyecto.)
+- **Logo de la empresa**: la app ya está preparada (desde el 21 de julio).
+  Solo falta el archivo: guarda el logo como `logo.png` dentro de la carpeta
+  `public` del proyecto (`Webapp-abiq\public\logo.png`) y publica con
+  `npm run deploy`. Aparecerá solo en la pantalla de entrada, la barra
+  lateral, el menú del celular y la ficha imprimible. Si el archivo es JPG
+  u otro formato, pásaselo a Claude y él lo convierte. Mientras no exista
+  el archivo, se sigue viendo la marca provisional de siempre.
 - **Nuevos roles del equipo**: cuentas para la **diseñadora de interiores**
   y la **supervisora**. La supervisora debe tener visibilidad de TODOS los
   proyectos — importante si algún día se limita la vista de los vendedores

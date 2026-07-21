@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { LogOut, Package } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { navItems as items } from "./nav-items";
+import { LogoEmpresa } from "@/components/LogoEmpresa";
 import { cerrarSesion, useSesion } from "@/lib/sesion";
 
 export function Sidebar() {
@@ -13,11 +14,8 @@ export function Sidebar() {
 
   return (
     <aside className="hidden md:flex w-60 shrink-0 flex-col border-r border-stone-200 bg-white print:hidden">
-      <div className="flex items-center gap-2 px-5 py-4 border-b border-stone-100">
-        <div className="grid h-8 w-8 place-items-center rounded-lg bg-marca text-white">
-          <Package size={18} />
-        </div>
-        <span className="font-medium text-stone-800">AbiQ</span>
+      <div className="px-5 py-4 border-b border-stone-100">
+        <LogoEmpresa variante="panel" />
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-1">

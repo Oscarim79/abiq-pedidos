@@ -1,8 +1,17 @@
 # Estado del proyecto AbiQ
 
-_Última sesión: 20 de julio de 2026._
+_Última sesión: 21 de julio de 2026._
 
-## Qué se hizo hoy
+## Qué se hizo hoy (21 de julio)
+
+1. **App preparada para el logo de la empresa**: cuando exista el archivo
+   `public\logo.png`, el logo aparecerá solo en la pantalla de entrada, la
+   barra lateral, el menú del celular y la ficha imprimible — sin tocar
+   código. Mientras no exista, se sigue viendo la marca provisional "AbiQ".
+   Verificado en el navegador con y sin logo, y compilación completa OK.
+   **Falta el archivo real del logo (lo tiene Oscar) y publicar.**
+
+## Sesión anterior (20 de julio)
 
 1. **Tiendas reales**: el formulario ahora ofrece ABIQ-Cayala, ABIQ-Oakland,
    ABIQ-Pradera y ABIQ-Chiquimula (antes eran nombres de relleno).
@@ -35,8 +44,9 @@ _Última sesión: 20 de julio de 2026._
 1. **Pendiente chico de Oscar:** borrar en Supabase → Authentication → Users
    la cuenta `prueba@abiqmuebles.com` (y `prueba.abiq.borrar.2026@gmail.com`
    si sigue ahí). Crear las cuentas reales de los vendedores si aún faltan.
-2. **Logo de la empresa** en la app — falta que Oscar copie el archivo del
-   logo (PNG/JPG) a esta carpeta; ponerlo es rápido.
+2. **Logo de la empresa** — la app ya está lista; solo falta que Oscar
+   entregue el archivo (guardarlo como `public\logo.png`, o pasárselo a
+   Claude para que lo coloque) y publicar con `npm run deploy`.
 3. **Cuentas de la diseñadora de interiores y la supervisora** — se pueden
    crear ya (hoy toda cuenta ve todos los proyectos).
 4. **Fase 3 grande:** portal del cliente (ver avances, aprobar, comentar) y

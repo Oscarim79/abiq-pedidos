@@ -9,7 +9,7 @@
 //  como antes, solo en este navegador.
 // ============================================================================
 import { useState } from "react";
-import { Package } from "lucide-react";
+import { LogoEmpresa } from "@/components/LogoEmpresa";
 import { supabaseConfigurado } from "@/lib/supabase";
 import { iniciarSesion, useSesion } from "@/lib/sesion";
 
@@ -49,11 +49,8 @@ function PantallaIngreso() {
   return (
     <div className="grid min-h-screen place-items-center bg-stone-50 p-5">
       <div className="w-full max-w-sm">
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-marca text-white">
-            <Package size={22} />
-          </div>
-          <span className="text-lg font-medium text-stone-800">AbiQ</span>
+        <div className="mb-6 flex justify-center">
+          <LogoEmpresa variante="portada" />
         </div>
 
         <form
