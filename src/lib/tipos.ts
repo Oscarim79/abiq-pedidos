@@ -15,6 +15,17 @@ export type Cliente = {
   telefono: string;
 };
 
+// Un artículo adicional del mismo pedido (además del mueble principal):
+// las sillas que acompañan un comedor, un banco, cojines extra…
+export type ArticuloExtra = {
+  id: string;
+  codigo: string; // código del artículo, ej. "220264"
+  descripcion: string; // ej. "Silla Modern Rabat"
+  cantidad: string; // como texto para permitir el campo vacío al escribir
+  costo: string; // costo por unidad, en quetzales
+  observaciones: string; // instrucciones de fabricación de ese artículo
+};
+
 // Medidas exactas del mueble, en centímetros. Se guardan como texto para
 // permitir cosas como "240" o "240.5".
 export type Medidas = {
@@ -41,6 +52,15 @@ export type Proyecto = {
   herrajes: string[]; // Ej. ["Bisagras ocultas", "Sistema push"]
   caracteristicas: string; // curvas, puertas laterales, interiores, divisiones…
   notas: string; // cualquier otro detalle que mencione el cliente
+
+  // ——— Orden de fabricación (el documento que recibe la fábrica) ———
+  // Estos campos son opcionales porque los pedidos guardados antes de esta
+  // mejora no los tienen; la app los trata como vacíos.
+  folio?: number; // consecutivo de la orden: 3030, 3031… (se imprime "OC3030")
+  codigoArticulo?: string; // código del mueble principal, ej. "220835-1"
+  cantidad?: string; // cuántas piezas del mueble principal (normalmente "1")
+  costo?: string; // costo por unidad del mueble principal, en quetzales
+  articulosExtra?: ArticuloExtra[]; // más artículos del mismo pedido
 
   // ——— Visto bueno (firma de responsabilidad) ———
   firma?: string; // la firma dibujada, guardada como imagen

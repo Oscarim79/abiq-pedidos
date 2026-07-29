@@ -1,5 +1,11 @@
 import type { Proyecto } from "@/lib/tipos";
 import { listaEspecificaciones } from "@/lib/especificaciones";
+import {
+  folioTexto,
+  formatearQ,
+  lineasDeOrden,
+  totalDeOrden,
+} from "@/lib/orden";
 
 // ============================================================================
 //  MENSAJE DE WHATSAPP PARA LOGÍSTICA
@@ -16,6 +22,8 @@ export function construirMensaje(
   cantidadFotos: number,
 ): string {
   let msg = `📦 *NUEVO PEDIDO — ${proyecto.titulo.toUpperCase()}*`;
+  if (proyecto.folio)
+    msg += `\n*Orden de fabricación:* ${folioTexto(proyecto.folio)}`;
   msg += `\n\n*Cliente:* ${proyecto.cliente.nombre}`;
   if (proyecto.cliente.telefono.trim())
     msg += `\n*Tel. cliente:* ${proyecto.cliente.telefono}`;
@@ -25,6 +33,23 @@ export function construirMensaje(
   msg += `\n\n🪑 *ESPECIFICACIONES*`;
   for (const [etiqueta, valor] of listaEspecificaciones(proyecto)) {
     msg += `\n• ${etiqueta}: ${valor}`;
+  }
+
+  // Artículos y costos (solo si se capturó algún código o costo).
+  const lineas = lineasDeOrden(proyecto);
+  const hayDatosDeOrden = lineas.some(
+    (l) => l.codigo !== "" || l.costo !== null,
+  );
+  if (hayDatosDeOrden) {
+    msg += `\n\n🧾 *ARTÍCULOS*`;
+    for (const l of lineas) {
+      msg += `\n• ${l.codigo ? `[${l.codigo}] ` : ""}${
+        l.descripcion || "Artículo"
+      } × ${l.cantidad}`;
+      if (l.subtotal !== null) msg += ` — ${formatearQ(l.subtotal)}`;
+    }
+    const total = totalDeOrden(lineas);
+    if (total !== null) msg += `\n*Total:* ${formatearQ(total)}`;
   }
 
   if (proyecto.caracteristicas.trim())

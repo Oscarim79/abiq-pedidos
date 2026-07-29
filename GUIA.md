@@ -1,6 +1,7 @@
 # Guía rápida de AbiQ
 
-_Guía sencilla para usar la app. Actualizada: 20 de julio de 2026 (fase 2)._
+_Guía sencilla para usar la app. Actualizada: 29 de julio de 2026 (orden de
+fabricación)._
 
 ---
 
@@ -118,9 +119,13 @@ Entra a **Ajustes** (barra lateral) y guarda:
 3. Escribe las **medidas exactas** en centímetros (largo, alto, profundidad).
 4. En **Características especiales** describe lo que la fábrica necesita saber:
    curvas, puertas laterales, interiores lisos, divisiones…
-5. **Arrastra las fotos** que trajo el cliente (o toca el recuadro para
+5. En **Orden de fabricación** escribe el **código del artículo**, la
+   **cantidad** y el **costo por unidad** (en quetzales). Si el pedido lleva
+   más piezas (sillas, bancos, cojines…), pulsa **"+ Agregar otro artículo"**
+   y captura cada una con su código, cantidad, costo y observaciones.
+6. **Arrastra las fotos** que trajo el cliente (o toca el recuadro para
    elegirlas). Acepta JPG, PNG y PDF.
-6. Pulsa **"Crear proyecto"**.
+7. Pulsa **"Crear proyecto"**.
 
 ---
 
@@ -135,6 +140,29 @@ Dentro del proyecto, pulsa el botón verde **"Enviar a logística por WhatsApp"*
 > 📷 **Las fotos no viajan solas**: WhatsApp no permite adjuntarlas
 > automáticamente. Adjúntalas en el mismo chat, o mejor: imprime la **ficha**
 > como PDF (ver abajo) y mándala en el chat — ahí van las fotos incluidas.
+
+---
+
+## 🏭 La orden de fabricación (nueva, julio 2026)
+
+Dentro del proyecto, pulsa **"Orden de fabricación"**. La app arma **sola** el
+documento que usa la fábrica — igual al formato en papel (como la OC3029):
+
+- **Número de orden automático**: cada pedido recibe su consecutivo (OC3030,
+  OC3031…) sin que nadie lleve la cuenta. El número sale en el detalle, en el
+  documento y en el mensaje de WhatsApp.
+- **Tabla de artículos** con código, cantidad, costo, subtotal y total.
+- **Tapiz / Observaciones se llena solo** con todo lo capturado: medidas,
+  madera, tela, color, acabado, vetas, herrajes y características especiales.
+- Las **Notas** del pedido salen arriba como aviso **IMPORTANTE** (ej. "este
+  sofá se va para El Salvador…").
+- La **cláusula de conformidad** y la **firma del cliente** (la del "Visto
+  bueno") van al pie, con su nombre.
+- Pulsa **"Imprimir / Guardar PDF"** para imprimirla o mandarla por WhatsApp.
+
+> 🔢 Si el consecutivo en papel ya va más adelante que el de la app, se cambia
+> el número inicial en `src/lib/catalogo.ts` (línea `FOLIO_INICIO`) — o
+> pídeselo a Claude.
 
 ---
 

@@ -14,3 +14,6 @@ next-env.d.ts
 *.max
 *.rar
 .dev-server.log
+
+# Documentos con datos de clientes reales (el repo es público: NUNCA subirlos)
+*.pdf

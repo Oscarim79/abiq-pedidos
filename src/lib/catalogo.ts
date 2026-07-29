@@ -9,6 +9,12 @@
 //  puede escribirlo a mano en el campo "Otro".
 // ============================================================================
 
+// Número donde arranca el consecutivo de las órdenes de fabricación que
+// genera la app (la primera será "OC3030", la siguiente "OC3031", etc.).
+// Si las órdenes en papel ya van más adelante, cambia este número por el
+// siguiente que toque — la app nunca repite ni baja de este número.
+export const FOLIO_INICIO = 3030;
+
 export const TIENDAS = [
   "ABIQ-Cayala",
   "ABIQ-Oakland",

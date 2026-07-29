@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import clsx from "clsx";
-import type { Proyecto } from "@/lib/tipos";
+import { X } from "lucide-react";
+import type { ArticuloExtra, Proyecto } from "@/lib/tipos";
 import type { ProyectoInput } from "@/lib/proyectos-store";
 import {
   ACABADOS,
@@ -37,6 +38,10 @@ const VACIO: ProyectoInput = {
   herrajes: [],
   caracteristicas: "",
   notas: "",
+  codigoArticulo: "",
+  cantidad: "1",
+  costo: "",
+  articulosExtra: [],
 };
 
 // ——— Botones de selección rápida (una sola opción) ————————————————
@@ -229,6 +234,12 @@ export function ProyectoForm({
           herrajes: [...inicial.herrajes],
           caracteristicas: inicial.caracteristicas,
           notas: inicial.notas,
+          // Los pedidos guardados antes de la orden de fabricación no traen
+          // estos campos; se rellenan vacíos.
+          codigoArticulo: inicial.codigoArticulo ?? "",
+          cantidad: inicial.cantidad ?? "1",
+          costo: inicial.costo ?? "",
+          articulosExtra: (inicial.articulosExtra ?? []).map((a) => ({ ...a })),
         }
       : VACIO,
   );
@@ -238,6 +249,35 @@ export function ProyectoForm({
     valor: ProyectoInput[K],
   ) {
     setDatos((d) => ({ ...d, [campo]: valor }));
+  }
+
+  // ——— Artículos adicionales de la orden de fabricación ———
+  const articulos = datos.articulosExtra ?? [];
+
+  function cambiarArticulo(i: number, cambios: Partial<ArticuloExtra>) {
+    const lista = articulos.map((a, j) => (j === i ? { ...a, ...cambios } : a));
+    set("articulosExtra", lista);
+  }
+
+  function agregarArticulo() {
+    set("articulosExtra", [
+      ...articulos,
+      {
+        id: `a-${Date.now()}`,
+        codigo: "",
+        descripcion: "",
+        cantidad: "1",
+        costo: "",
+        observaciones: "",
+      },
+    ]);
+  }
+
+  function quitarArticulo(i: number) {
+    set(
+      "articulosExtra",
+      articulos.filter((_, j) => j !== i),
+    );
   }
 
   const valido =
@@ -418,6 +458,123 @@ export function ProyectoForm({
             className={clsx(claseInput, "resize-none")}
           />
         </Campo>
+      </Seccion>
+
+      <Seccion
+        titulo="Orden de fabricación"
+        descripcion="Código, cantidad y costo por unidad. Con esto la app arma sola la orden que se imprime para la fábrica."
+      >
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <Campo etiqueta="Código del artículo">
+            <input
+              value={datos.codigoArticulo ?? ""}
+              onChange={(e) => set("codigoArticulo", e.target.value)}
+              placeholder="Ej.: 220835-1"
+              className={claseInput}
+            />
+          </Campo>
+          <Campo etiqueta="Cantidad">
+            <input
+              type="number"
+              inputMode="numeric"
+              min="1"
+              value={datos.cantidad ?? "1"}
+              onChange={(e) => set("cantidad", e.target.value)}
+              placeholder="1"
+              className={claseInput}
+            />
+          </Campo>
+          <Campo etiqueta="Costo por unidad (Q)">
+            <input
+              type="number"
+              inputMode="decimal"
+              min="0"
+              value={datos.costo ?? ""}
+              onChange={(e) => set("costo", e.target.value)}
+              placeholder="0"
+              className={claseInput}
+            />
+          </Campo>
+        </div>
+
+        <div>
+          <span className="mb-1.5 block text-sm text-stone-600">
+            ¿El pedido lleva más artículos? (sillas, bancos, cojines…)
+          </span>
+          <div className="space-y-3">
+            {articulos.map((art, i) => (
+              <div
+                key={art.id}
+                className="rounded-lg border border-stone-200 bg-stone-50/50 p-3"
+              >
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <input
+                    value={art.codigo}
+                    onChange={(e) =>
+                      cambiarArticulo(i, { codigo: e.target.value })
+                    }
+                    placeholder="Código (ej.: 220264)"
+                    className={claseInput}
+                  />
+                  <input
+                    value={art.descripcion}
+                    onChange={(e) =>
+                      cambiarArticulo(i, { descripcion: e.target.value })
+                    }
+                    placeholder="Descripción (ej.: Silla Modern Rabat)"
+                    className={claseInput}
+                  />
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    min="1"
+                    value={art.cantidad}
+                    onChange={(e) =>
+                      cambiarArticulo(i, { cantidad: e.target.value })
+                    }
+                    placeholder="Cantidad"
+                    className={claseInput}
+                  />
+                  <input
+                    type="number"
+                    inputMode="decimal"
+                    min="0"
+                    value={art.costo}
+                    onChange={(e) =>
+                      cambiarArticulo(i, { costo: e.target.value })
+                    }
+                    placeholder="Costo por unidad (Q)"
+                    className={claseInput}
+                  />
+                </div>
+                <textarea
+                  value={art.observaciones}
+                  onChange={(e) =>
+                    cambiarArticulo(i, { observaciones: e.target.value })
+                  }
+                  rows={2}
+                  placeholder="Observaciones para la fábrica: tela, medidas, color…"
+                  className={clsx(claseInput, "mt-3 resize-none")}
+                />
+                <button
+                  type="button"
+                  onClick={() => quitarArticulo(i)}
+                  className="mt-2 flex items-center gap-1 text-xs text-stone-400 transition-colors hover:text-red-500"
+                >
+                  <X size={13} />
+                  Quitar este artículo
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={agregarArticulo}
+              className="w-full rounded-lg border border-dashed border-stone-300 px-4 py-2 text-sm text-stone-500 transition-colors hover:border-marca hover:text-marca-oscuro"
+            >
+              + Agregar otro artículo
+            </button>
+          </div>
+        </div>
       </Seccion>
 
       <Seccion

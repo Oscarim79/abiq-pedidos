@@ -1,8 +1,40 @@
 # Estado del proyecto AbiQ
 
-_Última sesión: 21 de julio de 2026._
+_Última sesión: 29 de julio de 2026._
 
-## Qué se hizo hoy (21 de julio)
+## Qué se hizo hoy (29 de julio)
+
+1. **ORDEN DE FABRICACIÓN AUTOMÁTICA** 🏭 — el gerente de logística pidió
+   que la app genere la orden de fabricación con los datos capturados.
+   Se analizó una orden real (`OC3029 CARLOS ANTONIO CALDERON LOPEZ.pdf`,
+   que queda solo en la carpeta local — los PDF ya no suben a GitHub porque
+   el repo es público y traen datos de clientes reales) y se replicó su
+   formato:
+   - Formulario: nueva sección "Orden de fabricación" (código del artículo,
+     cantidad, costo por unidad en Q, y artículos adicionales con sus
+     propias observaciones — ej. las 4 sillas que acompañan un sofá).
+   - **Folio automático**: consecutivo OC3030, OC3031… asignado al crear el
+     pedido (los pedidos viejos lo reciben al abrir el documento). Arranca
+     en `FOLIO_INICIO = 3030` (editable en `src/lib/catalogo.ts` si el
+     papel ya va más adelante).
+   - Nueva hoja imprimible `/proyectos/orden`: encabezado con folio, fecha,
+     tienda, cliente y asesor; aviso IMPORTANTE (las notas del pedido);
+     tabla código/descripción/cantidad/costo/subtotal/tapiz-observaciones/
+     foto (las observaciones del mueble principal se arman solas con las
+     especificaciones + características); total; cláusula de conformidad
+     (texto de las órdenes en papel) y nombre + firma del cliente.
+   - Detalle del pedido: botón "Orden de fabricación", folio en el
+     encabezado y tarjeta resumen con artículos y total.
+   - WhatsApp: el mensaje ahora lleva folio, artículos y total.
+   - Verificado en el navegador de punta a punta (captura → detalle →
+     orden → WhatsApp) reproduciendo la OC3029: Q13,000 + 4×Q900 = Q16,600 ✔.
+2. ⚠️ **NO SE PUBLICÓ**: en esta carpeta (`C:\Proyectos\abiq-pedidos`) no
+   existe `.env.local` (solo el `.example`), y publicar sin él dejaría la
+   página SIN conexión a la nube. Falta que Oscar recree el archivo con las
+   2 claves de Supabase (Settings → API) o indique dónde quedó el original;
+   después, `npm run deploy`.
+
+## Sesión anterior (21 de julio)
 
 1. **LOGO OFICIAL PUBLICADO** 🎉 — Oscar pasó las 2 variantes del logo
    ABI·Q; se usó la negra (fondo transparente, recortada) porque las
@@ -61,7 +93,7 @@ _Última sesión: 21 de julio de 2026._
 
 ## Cómo retomar
 
-Abrir sesión en `D:\Proyectos\Webapp-abiq` y decir "¿en qué nos quedamos?".
+Abrir sesión en `C:\Proyectos\abiq-pedidos` y decir "¿en qué nos quedamos?".
 La app pública: https://oscarim79.github.io/abiq-pedidos/ (publicar cambios:
 `npm run deploy`). Detalle de la fase 2 en `FASE2.md`; guía de uso en
 `GUIA.md`.

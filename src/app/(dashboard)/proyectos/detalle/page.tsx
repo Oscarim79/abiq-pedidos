@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   ChevronLeft,
+  ClipboardList,
   MessageCircle,
   Pencil,
   Printer,
@@ -21,6 +22,12 @@ import { useArchivos } from "@/lib/archivos-store";
 import { useAjustes } from "@/lib/ajustes-store";
 import { construirMensaje, enlaceWhatsApp } from "@/lib/whatsapp";
 import { listaEspecificaciones } from "@/lib/especificaciones";
+import {
+  folioTexto,
+  formatearQ,
+  lineasDeOrden,
+  totalDeOrden,
+} from "@/lib/orden";
 import { Fotos } from "@/components/proyectos/Fotos";
 import { FirmaPad } from "@/components/proyectos/FirmaPad";
 
@@ -106,6 +113,10 @@ function DetalleProyecto() {
   // Especificaciones a mostrar (solo las que aportan algo).
   const especificaciones = listaEspecificaciones(proyecto);
 
+  // Las líneas de la orden de fabricación (mueble principal + artículos).
+  const lineas = lineasDeOrden(proyecto);
+  const total = totalDeOrden(lineas);
+
   return (
     <div className="mx-auto max-w-5xl">
       <Link
@@ -123,6 +134,7 @@ function DetalleProyecto() {
             {proyecto.titulo}
           </h1>
           <p className="text-sm text-stone-500">
+            {proyecto.folio && `${folioTexto(proyecto.folio)} · `}
             {proyecto.cliente.nombre}
             {proyecto.cliente.telefono && ` · ${proyecto.cliente.telefono}`} ·{" "}
             {proyecto.tienda} · creado el {proyecto.creadoEn}
@@ -145,6 +157,13 @@ function DetalleProyecto() {
           <MessageCircle size={16} />
           Enviar a logística por WhatsApp
         </button>
+        <Link
+          href={`/proyectos/orden?id=${proyecto.id}`}
+          className="flex items-center gap-2 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-700 transition-colors hover:bg-stone-50"
+        >
+          <ClipboardList size={16} />
+          Orden de fabricación
+        </Link>
         <Link
           href={`/proyectos/ficha?id=${proyecto.id}`}
           className="flex items-center gap-2 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-700 transition-colors hover:bg-stone-50"
@@ -245,6 +264,48 @@ function DetalleProyecto() {
                 </p>
               </div>
             )}
+          </Tarjeta>
+
+          {/* Resumen de la orden de fabricación */}
+          <Tarjeta titulo="Orden de fabricación">
+            <p className="text-sm text-stone-600">
+              Número de orden:{" "}
+              <span className="font-medium text-stone-800">
+                {proyecto.folio
+                  ? folioTexto(proyecto.folio)
+                  : "se asigna al abrir el documento"}
+              </span>
+            </p>
+            <ul className="mt-2 divide-y divide-stone-100">
+              {lineas.map((linea, i) => (
+                <li
+                  key={i}
+                  className="flex items-baseline justify-between gap-4 py-2 text-sm"
+                >
+                  <span className="text-stone-700">
+                    {linea.codigo && (
+                      <span className="text-stone-400">[{linea.codigo}] </span>
+                    )}
+                    {linea.descripcion || "Artículo"} × {linea.cantidad}
+                  </span>
+                  <span className="shrink-0 font-medium text-stone-800">
+                    {linea.subtotal !== null
+                      ? formatearQ(linea.subtotal)
+                      : "sin costo"}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            {total !== null && (
+              <p className="mt-1 border-t border-stone-200 pt-2 text-right text-sm font-semibold text-stone-800">
+                Total: {formatearQ(total)}
+              </p>
+            )}
+            <p className="mt-2 text-xs text-stone-400">
+              El código, la cantidad y el costo se capturan con “Editar”. El
+              documento para la fábrica sale con el botón “Orden de
+              fabricación” de arriba.
+            </p>
           </Tarjeta>
         </div>
 
