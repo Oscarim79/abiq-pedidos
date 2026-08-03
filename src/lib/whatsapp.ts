@@ -1,5 +1,4 @@
 import type { Proyecto } from "@/lib/tipos";
-import { listaEspecificaciones } from "@/lib/especificaciones";
 import {
   folioTexto,
   formatearQ,
@@ -10,10 +9,13 @@ import {
 // ============================================================================
 //  MENSAJE DE WHATSAPP PARA LOGÍSTICA
 // ----------------------------------------------------------------------------
-//  Arma el texto del pedido con todas las especificaciones y genera el enlace
-//  que abre WhatsApp con el mensaje ya escrito. Si quieres cambiar el formato
-//  del mensaje, edita la función construirMensaje: lo que va entre comillas
-//  es texto normal, y ${...} inserta el dato del proyecto.
+//  Lo que logística recibe es la ORDEN DE FABRICACIÓN en PDF (la hoja de
+//  /proyectos/orden, guardada con "Imprimir / Guardar PDF"). Este mensaje es
+//  el texto que la acompaña: folio, datos rápidos, artículos y el aviso de
+//  que la orden va adjunta. El detalle completo (especificaciones, tapiz,
+//  firma) viaja dentro del PDF. Si quieres cambiar el formato del mensaje,
+//  edita construirMensaje: lo que va entre comillas es texto normal, y
+//  ${...} inserta el dato del proyecto.
 // ============================================================================
 
 export function construirMensaje(
@@ -21,19 +23,18 @@ export function construirMensaje(
   vendedorNombre: string,
   cantidadFotos: number,
 ): string {
-  let msg = `📦 *NUEVO PEDIDO — ${proyecto.titulo.toUpperCase()}*`;
-  if (proyecto.folio)
-    msg += `\n*Orden de fabricación:* ${folioTexto(proyecto.folio)}`;
+  const folio = folioTexto(proyecto.folio);
+  let msg = `🏭 *ORDEN DE FABRICACIÓN ${folio}*`;
+  msg += `\n*Pedido:* ${proyecto.titulo}`;
   msg += `\n\n*Cliente:* ${proyecto.cliente.nombre}`;
   if (proyecto.cliente.telefono.trim())
     msg += `\n*Tel. cliente:* ${proyecto.cliente.telefono}`;
   msg += `\n*Tienda:* ${proyecto.tienda}`;
   if (vendedorNombre.trim()) msg += `\n*Vendedor:* ${vendedorNombre}`;
 
-  msg += `\n\n🪑 *ESPECIFICACIONES*`;
-  for (const [etiqueta, valor] of listaEspecificaciones(proyecto)) {
-    msg += `\n• ${etiqueta}: ${valor}`;
-  }
+  // El mismo aviso destacado que lleva la orden impresa.
+  if (proyecto.notas.trim())
+    msg += `\n\n⚠️ *IMPORTANTE:* ${proyecto.notas.trim()}`;
 
   // Artículos y costos (solo si se capturó algún código o costo).
   const lineas = lineasDeOrden(proyecto);
@@ -52,13 +53,10 @@ export function construirMensaje(
     if (total !== null) msg += `\n*Total:* ${formatearQ(total)}`;
   }
 
-  if (proyecto.caracteristicas.trim())
-    msg += `\n\n📐 *CARACTERÍSTICAS*\n${proyecto.caracteristicas.trim()}`;
-  if (proyecto.notas.trim())
-    msg += `\n\n📝 *NOTAS*\n${proyecto.notas.trim()}`;
-
+  msg += `\n\n📎 *Adjunto la orden de fabricación ${folio} en PDF*`;
   if (cantidadFotos > 0)
-    msg += `\n\n📷 El pedido tiene ${cantidadFotos} foto(s) de referencia. Se adjuntan en este chat junto con la ficha en PDF.`;
+    msg += ` y ${cantidadFotos} foto(s) de referencia`;
+  msg += `.`;
 
   msg += `\n\n_Enviado desde AbiQ · ${new Date().toLocaleDateString("es-MX")}_`;
   return msg;

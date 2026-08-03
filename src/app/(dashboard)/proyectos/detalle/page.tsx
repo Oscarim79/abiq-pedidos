@@ -16,6 +16,7 @@ import clsx from "clsx";
 import { estadoInfo, ORDEN_ESTADOS } from "@/lib/estados";
 import {
   eliminarProyecto,
+  siguienteFolio,
   useProyecto,
 } from "@/lib/proyectos-store";
 import { useArchivos } from "@/lib/archivos-store";
@@ -85,8 +86,13 @@ function DetalleProyecto() {
 
   function enviarWhatsApp() {
     if (!proyecto) return;
+    // El mensaje acompaña a la orden de fabricación: si el pedido aún no
+    // tiene número de orden, se le asigna aquí para que el folio del
+    // mensaje y el del PDF coincidan.
+    const folio = proyecto.folio ?? siguienteFolio();
+    if (!proyecto.folio) actualizar({ folio });
     const mensaje = construirMensaje(
-      proyecto,
+      { ...proyecto, folio },
       ajustes.vendedorNombre,
       archivos.length,
     );
@@ -187,8 +193,13 @@ function DetalleProyecto() {
           Eliminar
         </button>
       </div>
+      <p className="mt-2 text-xs text-stone-400">
+        Lo que logística recibe es la <b>orden de fabricación en PDF</b>: se
+        guarda con “Orden de fabricación” → “Imprimir / Guardar PDF” y se
+        adjunta en el chat que abre el botón verde (junto con las fotos).
+      </p>
       {ajustes.logisticaNumero === "" && (
-        <p className="mt-2 text-xs text-stone-400">
+        <p className="mt-1 text-xs text-stone-400">
           Consejo: guarda el número de logística en{" "}
           <Link href="/ajustes" className="underline">
             Ajustes

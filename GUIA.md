@@ -131,15 +131,25 @@ Entra a **Ajustes** (barra lateral) y guarda:
 
 ## 📲 Enviar el pedido a logística
 
-Dentro del proyecto, pulsa el botón verde **"Enviar a logística por WhatsApp"**:
+**Lo que logística recibe por WhatsApp es la orden de fabricación en PDF.**
+El camino, dentro del proyecto:
 
-- Se abre WhatsApp con el mensaje **ya escrito** con todas las especificaciones.
-- Solo revisa y pulsa enviar.
+1. Pulsa **"Orden de fabricación"** y revisa la hoja.
+2. Pulsa **"Imprimir / Guardar PDF"** y en el diálogo elige **"Guardar como
+   PDF"**.
+3. Pulsa **"Enviar por WhatsApp"** (ahí mismo, junto al de imprimir): se abre
+   el chat con el mensaje ya escrito — folio, cliente, artículos, total y el
+   aviso de que la orden va adjunta.
+4. **Adjunta en el chat el PDF** que acabas de guardar (y las fotos de
+   referencia) y pulsa enviar.
+
 - El proyecto pasa solo al estado **"Enviado a logística"**.
+- El botón verde de la pantalla del pedido abre el mismo chat con el mismo
+  mensaje, por si ya tienes el PDF guardado de antes.
 
-> 📷 **Las fotos no viajan solas**: WhatsApp no permite adjuntarlas
-> automáticamente. Adjúntalas en el mismo chat, o mejor: imprime la **ficha**
-> como PDF (ver abajo) y mándala en el chat — ahí van las fotos incluidas.
+> 📎 **El PDF y las fotos se adjuntan a mano**: WhatsApp no deja que la app
+> los adjunte automáticamente. El mensaje te lo recuerda ("Adjunto la orden…")
+> para que no se te pase.
 
 ---
 
@@ -158,7 +168,8 @@ documento que usa la fábrica — igual al formato en papel (como la OC3029):
   sofá se va para El Salvador…").
 - La **cláusula de conformidad** y la **firma del cliente** (la del "Visto
   bueno") van al pie, con su nombre.
-- Pulsa **"Imprimir / Guardar PDF"** para imprimirla o mandarla por WhatsApp.
+- Pulsa **"Imprimir / Guardar PDF"** para imprimirla o guardarla, y **"Enviar
+  por WhatsApp"** para mandarla a logística (pasos en la sección de arriba).
 
 > 🔢 Si el consecutivo en papel ya va más adelante que el de la app, se cambia
 > el número inicial en `src/lib/catalogo.ts` (línea `FOLIO_INICIO`) — o

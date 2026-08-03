@@ -15,6 +15,23 @@ _Última sesión: 3 de agosto de 2026._
    "Entrar al panel" activa (conexión a la nube OK) y la hoja
    `/proyectos/orden` ya existe en línea.
 4. **Nada pendiente en Supabase**: no hubo que tocar el panel de Supabase.
+5. **WhatsApp = la orden de fabricación** (aclaración de Oscar): lo que
+   logística recibe por WhatsApp es la orden en PDF, no un resumen del
+   pedido. Cambios (publicados y verificados en la página pública):
+   - El mensaje ahora es el acompañante de la orden: "ORDEN DE FABRICACIÓN
+     OC____" + cliente/tienda/vendedor, aviso IMPORTANTE, artículos con
+     total y "📎 Adjunto la orden de fabricación … en PDF" (ya no dice
+     "ficha", y el detalle fino viaja dentro del PDF).
+   - La hoja de la orden tiene botón verde "Enviar por WhatsApp" junto a
+     "Imprimir / Guardar PDF" — flujo: guardar PDF → abrir chat → adjuntar.
+     También marca el pedido como "Enviado a logística" al primer envío.
+   - El botón verde del detalle sigue, con recordatorio de adjuntar el PDF;
+     si el pedido no tenía folio, se le asigna al enviar.
+   - GUIA.md al día (sección "Enviar el pedido a logística" reescrita).
+   - Para probar sin cuenta: nueva config `abiq-local` en
+     `.claude/launch.json` (corre la app sin claves de nube → modo local
+     con ejemplos). Probado ahí: mensaje sin costos y con costos
+     (Q13,000 + 2×Q900 = Q14,800 ✔) y cambio de estado automático.
 
 ## Sesión anterior (29 de julio)
 

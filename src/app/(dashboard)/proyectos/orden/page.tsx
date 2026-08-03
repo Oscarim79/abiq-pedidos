@@ -3,11 +3,12 @@
 import { Suspense, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ChevronLeft, Printer } from "lucide-react";
+import { ChevronLeft, MessageCircle, Printer } from "lucide-react";
 import { LogoEmpresa } from "@/components/LogoEmpresa";
 import { siguienteFolio, useProyecto } from "@/lib/proyectos-store";
 import { useArchivos } from "@/lib/archivos-store";
 import { useAjustes } from "@/lib/ajustes-store";
+import { construirMensaje, enlaceWhatsApp } from "@/lib/whatsapp";
 import {
   CLAUSULA_CONFORMIDAD,
   folioTexto,
@@ -22,7 +23,11 @@ import {
 //  El documento que recibe la fábrica, con el mismo contenido que las órdenes
 //  en papel: número de orden, datos generales, tabla de artículos con costos
 //  y observaciones, cláusula de conformidad y firma del cliente. Se llena
-//  solo con lo capturado en el pedido. "Imprimir" también guarda como PDF.
+//  solo con lo capturado en el pedido.
+//
+//  ESTA hoja es lo que viaja por WhatsApp: 1) "Imprimir / Guardar PDF",
+//  2) "Enviar por WhatsApp" abre el chat con el mensaje listo y ahí se
+//  adjunta el PDF recién guardado (y las fotos).
 // ============================================================================
 
 export default function OrdenPage() {
@@ -46,7 +51,7 @@ function Dato({ etiqueta, valor }: { etiqueta: string; valor: string }) {
 
 function Orden() {
   const id = useSearchParams().get("id") ?? "";
-  const { proyecto, cargado, actualizar } = useProyecto(id);
+  const { proyecto, cargado, actualizar, cambiarEstado } = useProyecto(id);
   const { archivos } = useArchivos(id);
   const { ajustes } = useAjustes();
 
@@ -80,6 +85,24 @@ function Orden() {
   // En la columna FOTO caben las primeras 2 imágenes de referencia.
   const imagenes = archivos.filter((a) => a.tipo === "imagen").slice(0, 2);
 
+  // Abre el chat de logística con el mensaje que acompaña a esta orden.
+  // El PDF se adjunta a mano en el chat (se guarda con el botón de al lado).
+  function enviarWhatsApp() {
+    if (!proyecto) return;
+    const mensaje = construirMensaje(
+      proyecto,
+      ajustes.vendedorNombre,
+      archivos.length,
+    );
+    window.open(
+      enlaceWhatsApp(ajustes.logisticaNumero, mensaje),
+      "_blank",
+      "noopener",
+    );
+    // El primer envío marca el proyecto como "Enviado a logística".
+    if (proyecto.estado === "nuevo") cambiarEstado("enviado_logistica");
+  }
+
   return (
     <div className="mx-auto max-w-4xl">
       {/* Barra superior — no sale en la impresión */}
@@ -91,14 +114,24 @@ function Orden() {
           <ChevronLeft size={16} />
           {proyecto.titulo}
         </Link>
-        <button
-          type="button"
-          onClick={() => window.print()}
-          className="flex items-center gap-2 rounded-lg bg-marca px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-marca-oscuro"
-        >
-          <Printer size={16} />
-          Imprimir / Guardar PDF
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="flex items-center gap-2 rounded-lg bg-marca px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-marca-oscuro"
+          >
+            <Printer size={16} />
+            Imprimir / Guardar PDF
+          </button>
+          <button
+            type="button"
+            onClick={enviarWhatsApp}
+            className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
+          >
+            <MessageCircle size={16} />
+            Enviar por WhatsApp
+          </button>
+        </div>
       </div>
 
       {/* ——— LA HOJA ——— */}
@@ -247,9 +280,11 @@ function Orden() {
       </div>
 
       <p className="mt-3 text-center text-xs text-stone-400 print:hidden">
-        Si falta la firma, el cliente firma en la pantalla del pedido (tarjeta
-        “Visto bueno”) y aquí aparece sola. En el diálogo de impresión elige
-        “Guardar como PDF” para mandar la orden por WhatsApp.
+        Esta hoja es lo que recibe logística: 1) “Imprimir / Guardar PDF” y
+        elige “Guardar como PDF”; 2) “Enviar por WhatsApp” abre el chat con el
+        mensaje listo — adjunta ahí el PDF que guardaste (y las fotos). Si
+        falta la firma, el cliente firma en la pantalla del pedido (tarjeta
+        “Visto bueno”) y aquí aparece sola.
       </p>
     </div>
   );
