@@ -1,21 +1,17 @@
 import type { Proyecto } from "@/lib/tipos";
-import {
-  folioTexto,
-  formatearQ,
-  lineasDeOrden,
-  totalDeOrden,
-} from "@/lib/orden";
+import { formatearQ, lineasDeOrden, totalDeOrden } from "@/lib/orden";
 
 // ============================================================================
 //  MENSAJE DE WHATSAPP PARA LOGÍSTICA
 // ----------------------------------------------------------------------------
 //  Lo que logística recibe es la ORDEN DE FABRICACIÓN en PDF (la hoja de
 //  /proyectos/orden, guardada con "Imprimir / Guardar PDF"). Este mensaje es
-//  el texto que la acompaña: folio, datos rápidos, artículos y el aviso de
-//  que la orden va adjunta. El detalle completo (especificaciones, tapiz,
-//  firma) viaja dentro del PDF. Si quieres cambiar el formato del mensaje,
-//  edita construirMensaje: lo que va entre comillas es texto normal, y
-//  ${...} inserta el dato del proyecto.
+//  el texto que la acompaña: datos rápidos, artículos y el aviso de que la
+//  orden va adjunta. El número de orden NO va: es el correlativo que lleva
+//  logística. El detalle completo (especificaciones, tapiz, firma) viaja
+//  dentro del PDF. Si quieres cambiar el formato del mensaje, edita
+//  construirMensaje: lo que va entre comillas es texto normal, y ${...}
+//  inserta el dato del proyecto.
 // ============================================================================
 
 export function construirMensaje(
@@ -23,8 +19,7 @@ export function construirMensaje(
   vendedorNombre: string,
   cantidadFotos: number,
 ): string {
-  const folio = folioTexto(proyecto.folio);
-  let msg = `🏭 *ORDEN DE FABRICACIÓN ${folio}*`;
+  let msg = `🏭 *ORDEN DE FABRICACIÓN*`;
   msg += `\n*Pedido:* ${proyecto.titulo}`;
   msg += `\n\n*Cliente:* ${proyecto.cliente.nombre}`;
   if (proyecto.cliente.telefono.trim())
@@ -56,7 +51,7 @@ export function construirMensaje(
     if (total !== null) msg += `\n*Total:* ${formatearQ(total)}`;
   }
 
-  msg += `\n\n📎 *Adjunto la orden de fabricación ${folio} en PDF*`;
+  msg += `\n\n📎 *Adjunto la orden de fabricación en PDF*`;
   if (cantidadFotos > 0)
     msg += ` y ${cantidadFotos} foto(s) de referencia`;
   msg += `.`;

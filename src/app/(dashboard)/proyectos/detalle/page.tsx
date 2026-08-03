@@ -16,19 +16,13 @@ import clsx from "clsx";
 import { estadoInfo, ORDEN_ESTADOS } from "@/lib/estados";
 import {
   eliminarProyecto,
-  siguienteFolio,
   useProyecto,
 } from "@/lib/proyectos-store";
 import { useArchivos } from "@/lib/archivos-store";
 import { useAjustes } from "@/lib/ajustes-store";
 import { construirMensaje, enlaceWhatsApp } from "@/lib/whatsapp";
 import { listaEspecificaciones } from "@/lib/especificaciones";
-import {
-  folioTexto,
-  formatearQ,
-  lineasDeOrden,
-  totalDeOrden,
-} from "@/lib/orden";
+import { formatearQ, lineasDeOrden, totalDeOrden } from "@/lib/orden";
 import { Fotos } from "@/components/proyectos/Fotos";
 import { FirmaPad } from "@/components/proyectos/FirmaPad";
 
@@ -86,13 +80,8 @@ function DetalleProyecto() {
 
   function enviarWhatsApp() {
     if (!proyecto) return;
-    // El mensaje acompaña a la orden de fabricación: si el pedido aún no
-    // tiene número de orden, se le asigna aquí para que el folio del
-    // mensaje y el del PDF coincidan.
-    const folio = proyecto.folio ?? siguienteFolio();
-    if (!proyecto.folio) actualizar({ folio });
     const mensaje = construirMensaje(
-      { ...proyecto, folio },
+      proyecto,
       ajustes.vendedorNombre,
       archivos.length,
     );
@@ -140,7 +129,6 @@ function DetalleProyecto() {
             {proyecto.titulo}
           </h1>
           <p className="text-sm text-stone-500">
-            {proyecto.folio && `${folioTexto(proyecto.folio)} · `}
             {proyecto.cliente.nombre}
             {proyecto.cliente.telefono && ` · ${proyecto.cliente.telefono}`} ·{" "}
             {proyecto.tienda}
@@ -282,12 +270,9 @@ function DetalleProyecto() {
           {/* Resumen de la orden de fabricación */}
           <Tarjeta titulo="Orden de fabricación">
             <p className="text-sm text-stone-600">
-              Número de orden:{" "}
-              <span className="font-medium text-stone-800">
-                {proyecto.folio
-                  ? folioTexto(proyecto.folio)
-                  : "se asigna al abrir el documento"}
-              </span>
+              El número de orden (OC) <b>lo asigna logística</b>: el documento
+              sale con esa línea en blanco para que ellos escriban su
+              correlativo.
             </p>
             <ul className="mt-2 divide-y divide-stone-100">
               {lineas.map((linea, i) => (

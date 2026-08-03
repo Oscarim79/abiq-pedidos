@@ -142,7 +142,7 @@ El camino, dentro del proyecto:
 2. Pulsa **"Imprimir / Guardar PDF"** y en el diálogo elige **"Guardar como
    PDF"**.
 3. Pulsa **"Enviar por WhatsApp"** (ahí mismo, junto al de imprimir): se abre
-   el chat con el mensaje ya escrito — folio, cliente, artículos, total y el
+   el chat con el mensaje ya escrito — cliente, artículos, total y el
    aviso de que la orden va adjunta.
 4. **Adjunta en el chat el PDF** que acabas de guardar (y las fotos de
    referencia) y pulsa enviar.
@@ -162,9 +162,9 @@ El camino, dentro del proyecto:
 Dentro del proyecto, pulsa **"Orden de fabricación"**. La app arma **sola** el
 documento que usa la fábrica — igual al formato en papel (como la OC3029):
 
-- **Número de orden automático**: cada pedido recibe su consecutivo (OC3030,
-  OC3031…) sin que nadie lleve la cuenta. El número sale en el detalle, en el
-  documento y en el mensaje de WhatsApp.
+- **El número de orden (OC) va en blanco a propósito**: es el correlativo que
+  lleva logística, así que la hoja sale con la línea "OC ____" vacía para que
+  ellos escriban su número. La app no inventa el suyo.
 - **Tabla de artículos** con código, cantidad, costo, subtotal y total.
 - **Tapiz / Observaciones se llena solo** con todo lo capturado: medidas,
   madera, tela, color, acabado, vetas, herrajes y características especiales.
@@ -174,10 +174,6 @@ documento que usa la fábrica — igual al formato en papel (como la OC3029):
   bueno") van al pie, con su nombre.
 - Pulsa **"Imprimir / Guardar PDF"** para imprimirla o guardarla, y **"Enviar
   por WhatsApp"** para mandarla a logística (pasos en la sección de arriba).
-
-> 🔢 Si el consecutivo en papel ya va más adelante que el de la app, se cambia
-> el número inicial en `src/lib/catalogo.ts` (línea `FOLIO_INICIO`) — o
-> pídeselo a Claude.
 
 ---
 

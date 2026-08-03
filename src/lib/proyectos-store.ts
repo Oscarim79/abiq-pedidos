@@ -15,7 +15,6 @@
 //  guardados en ese navegador se suben solos (los 3 de ejemplo no).
 // ============================================================================
 import { useEffect, useState } from "react";
-import { FOLIO_INICIO } from "@/lib/catalogo";
 import { SEMILLA } from "@/lib/datos-ejemplo";
 import { eliminarArchivosDe, empujarArchivosDe } from "@/lib/archivos-store";
 import { avisarSinEspacio } from "@/lib/aviso-espacio";
@@ -28,8 +27,8 @@ const CLAVE = "abiq.proyectos.v2";
 // Los ids de los proyectos de ejemplo: nunca se suben a la nube.
 const IDS_EJEMPLO = new Set(SEMILLA.map((p) => p.id));
 
-// Lo que llena el vendedor en el formulario (todo menos id, estado, fechas
-// y el folio, que la app asigna sola).
+// Lo que llena el vendedor en el formulario (todo menos id, estado y fechas,
+// que la app asigna sola).
 export type ProyectoInput = Omit<
   Proyecto,
   "id" | "estado" | "creadoEn" | "enviadoEn" | "firma" | "firmadoPor" | "folio"
@@ -143,19 +142,12 @@ async function jalarUno(id: string): Promise<Proyecto | null> {
 
 // ——— Operaciones que usan las pantallas ————————————————————————————————
 
-// El siguiente número de orden de fabricación: uno más que el mayor usado
-// hasta ahora (mirando la lista completa, que incluye lo bajado de la nube).
-// Nunca baja de FOLIO_INICIO (editable en src/lib/catalogo.ts).
-export function siguienteFolio(): number {
-  const usados = leerTodos().map((p) => p.folio ?? 0);
-  return Math.max(FOLIO_INICIO - 1, ...usados) + 1;
-}
-
 export function crearProyecto(datos: ProyectoInput, id?: string): Proyecto {
+  // El número de orden (OC…) NO se asigna aquí: es el correlativo que lleva
+  // logística, y la orden se imprime con ese espacio en blanco.
   const nuevo: Proyecto = {
     ...datos,
     id: id ?? `p-${Date.now()}`,
-    folio: siguienteFolio(),
     estado: "nuevo",
     creadoEn: hoy(),
   };

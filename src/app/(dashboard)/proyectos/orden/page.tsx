@@ -1,17 +1,16 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ChevronLeft, MessageCircle, Printer } from "lucide-react";
 import { LogoEmpresa } from "@/components/LogoEmpresa";
-import { siguienteFolio, useProyecto } from "@/lib/proyectos-store";
+import { useProyecto } from "@/lib/proyectos-store";
 import { useArchivos } from "@/lib/archivos-store";
 import { useAjustes } from "@/lib/ajustes-store";
 import { construirMensaje, enlaceWhatsApp } from "@/lib/whatsapp";
 import {
   CLAUSULA_CONFORMIDAD,
-  folioTexto,
   formatearQ,
   lineasDeOrden,
   totalDeOrden,
@@ -51,17 +50,9 @@ function Dato({ etiqueta, valor }: { etiqueta: string; valor: string }) {
 
 function Orden() {
   const id = useSearchParams().get("id") ?? "";
-  const { proyecto, cargado, actualizar, cambiarEstado } = useProyecto(id);
+  const { proyecto, cargado, cambiarEstado } = useProyecto(id);
   const { archivos } = useArchivos(id);
   const { ajustes } = useAjustes();
-
-  // Los pedidos guardados antes de esta mejora no tienen número de orden:
-  // se les asigna el siguiente disponible la primera vez que se abre esta
-  // hoja, y queda guardado.
-  useEffect(() => {
-    if (proyecto && !proyecto.folio) actualizar({ folio: siguienteFolio() });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [proyecto?.id, proyecto?.folio]);
 
   if (!proyecto) {
     return (
@@ -143,8 +134,11 @@ function Orden() {
             <div className="text-sm font-bold uppercase tracking-wide text-stone-900">
               Orden de fabricación
             </div>
+            {/* El número es el correlativo que lleva logística: se deja la
+                línea en blanco para que ellos lo escriban a mano. */}
             <div className="text-xl font-bold text-stone-900">
-              {folioTexto(proyecto.folio)}
+              OC{" "}
+              <span className="inline-block w-24 border-b-2 border-stone-800 align-baseline" />
             </div>
           </div>
         </div>

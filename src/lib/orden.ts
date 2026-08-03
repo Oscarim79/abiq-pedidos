@@ -10,11 +10,6 @@ import { listaEspecificaciones } from "@/lib/especificaciones";
 //  imprimible (proyectos/orden), el detalle y el mensaje de WhatsApp.
 // ============================================================================
 
-// El número de orden como se imprime: 3030 → "OC3030".
-export function folioTexto(folio?: number): string {
-  return folio ? `OC${folio}` : "OC —";
-}
-
 // 13000 → "Q13,000" (quetzales, con separador de miles).
 export function formatearQ(monto: number): string {
   return `Q${monto.toLocaleString("es-GT", { maximumFractionDigits: 2 })}`;

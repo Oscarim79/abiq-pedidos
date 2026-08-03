@@ -43,6 +43,19 @@ _Última sesión: 3 de agosto de 2026._
      (sin el dato) siguen usando el nombre de Ajustes como respaldo.
    - Probado en modo local (prioridad correcta: pedido gana a Ajustes) y
      publicado + verificado en la página pública.
+7. **El número de orden (OC) ahora va EN BLANCO** (aviso de logística vía
+   Oscar: el correlativo lo llevan ellos, la app no debe inventar el suyo).
+   Se quitó el folio automático (OC3030…) que se estrenó el 29 de julio:
+   - Ya no se asigna folio al crear pedidos ni al abrir la orden; se
+     borraron `siguienteFolio()` y `FOLIO_INICIO`.
+   - La hoja imprime "OC ______" con línea en blanco para que logística
+     escriba su número a mano; la tarjeta del detalle lo explica.
+   - El mensaje de WhatsApp y el encabezado del detalle ya no muestran
+     número. El campo `folio` sigue en los datos solo por los pedidos
+     guardados estos días (no se muestra en ningún lado).
+   - Probado en modo local y publicado + verificado en la página pública.
+   - Si algún día quieren ANOTAR en la app el número que logística asignó,
+     sería un campo manual nuevo (mini-mejora pendiente de que la pidan).
 
 ## Sesión anterior (29 de julio)
 

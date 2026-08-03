@@ -58,7 +58,9 @@ export type Proyecto = {
   // ——— Orden de fabricación (el documento que recibe la fábrica) ———
   // Estos campos son opcionales porque los pedidos guardados antes de esta
   // mejora no los tienen; la app los trata como vacíos.
-  folio?: number; // consecutivo de la orden: 3030, 3031… (se imprime "OC3030")
+  folio?: number; // YA NO SE USA: el número de orden es el correlativo que
+  // lleva logística y la orden se imprime con el espacio en blanco. Se
+  // conserva solo porque pedidos guardados en julio/agosto 2026 lo traen.
   codigoArticulo?: string; // código del mueble principal, ej. "220835-1"
   cantidad?: string; // cuántas piezas del mueble principal (normalmente "1")
   costo?: string; // costo por unidad del mueble principal, en quetzales
