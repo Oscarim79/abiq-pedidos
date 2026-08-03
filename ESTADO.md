@@ -1,8 +1,22 @@
 # Estado del proyecto AbiQ
 
-_Última sesión: 29 de julio de 2026._
+_Última sesión: 3 de agosto de 2026._
 
-## Qué se hizo hoy (29 de julio)
+## Qué se hizo hoy (3 de agosto)
+
+1. **ORDEN DE FABRICACIÓN PUBLICADA** 🎉 — se resolvió el pendiente de la
+   sesión pasada y la app pública ya tiene todo lo del 29 de julio.
+2. **`.env.local` recuperado sin molestar a Oscar**: las 2 claves de la nube
+   son las "públicas" (viajan dentro de la propia página), así que Claude las
+   extrajo del JS de la página publicada, recreó el archivo y comprobó contra
+   Supabase que siguen vigentes (respuesta 200 del servicio de cuentas).
+   El archivo NO se sube a GitHub (`.gitignore` lo excluye).
+3. Publicado con `npm run deploy` y verificado en la URL pública: pantalla de
+   "Entrar al panel" activa (conexión a la nube OK) y la hoja
+   `/proyectos/orden` ya existe en línea.
+4. **Nada pendiente en Supabase**: no hubo que tocar el panel de Supabase.
+
+## Sesión anterior (29 de julio)
 
 1. **ORDEN DE FABRICACIÓN AUTOMÁTICA** 🏭 — el gerente de logística pidió
    que la app genere la orden de fabricación con los datos capturados.
@@ -28,11 +42,8 @@ _Última sesión: 29 de julio de 2026._
    - WhatsApp: el mensaje ahora lleva folio, artículos y total.
    - Verificado en el navegador de punta a punta (captura → detalle →
      orden → WhatsApp) reproduciendo la OC3029: Q13,000 + 4×Q900 = Q16,600 ✔.
-2. ⚠️ **NO SE PUBLICÓ**: en esta carpeta (`C:\Proyectos\abiq-pedidos`) no
-   existe `.env.local` (solo el `.example`), y publicar sin él dejaría la
-   página SIN conexión a la nube. Falta que Oscar recree el archivo con las
-   2 claves de Supabase (Settings → API) o indique dónde quedó el original;
-   después, `npm run deploy`.
+2. ⚠️ NO SE PUBLICÓ ese día por falta de `.env.local` — **resuelto el 3 de
+   agosto** (ver arriba).
 
 ## Sesión anterior (21 de julio)
 
