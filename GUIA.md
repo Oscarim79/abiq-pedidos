@@ -104,8 +104,9 @@ Entra a **Ajustes** (barra lateral) y guarda:
 1. **El WhatsApp de logística**: con código de país, sin espacios ni signos
    (ejemplo para México: `5215512345678`). Así el botón verde abre el chat
    directo con ese contacto.
-2. **Tu nombre**: sale en el mensaje y en la ficha, para que logística sepa a
-   quién preguntarle.
+2. **Tu nombre**: con él se rellena solo el campo **Vendedor** de cada pedido
+   nuevo que captures en este aparato (y se puede cambiar en el formulario si
+   atendió otra persona).
 
 ---
 
@@ -113,7 +114,10 @@ Entra a **Ajustes** (barra lateral) y guarda:
 
 1. Entra a **Proyectos** y pulsa **"Nuevo proyecto"**.
 2. Llena el formulario. Primero elige tu **tienda** (ABIQ-Cayala, ABIQ-Oakland,
-   ABIQ-Pradera o ABIQ-Chiquimula). Casi todo lo demás es **tocar botones**: madera, tela, acabado,
+   ABIQ-Pradera o ABIQ-Chiquimula) y revisa el campo **Vendedor** (se rellena
+   solo con el nombre de Ajustes; cámbialo si atendió otra persona — ese
+   nombre sale como **Asesor** en la orden de fabricación). Casi todo lo
+   demás es **tocar botones**: madera, tela, acabado,
    dirección de vetas, herrajes… Si el cliente pide algo que no está en la
    lista, toca **"Otro…"** y escríbelo.
 3. Escribe las **medidas exactas** en centímetros (largo, alto, profundidad).

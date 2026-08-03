@@ -30,7 +30,10 @@ export function construirMensaje(
   if (proyecto.cliente.telefono.trim())
     msg += `\n*Tel. cliente:* ${proyecto.cliente.telefono}`;
   msg += `\n*Tienda:* ${proyecto.tienda}`;
-  if (vendedorNombre.trim()) msg += `\n*Vendedor:* ${vendedorNombre}`;
+  // Primero el vendedor guardado en el pedido; si no lo trae (pedidos
+  // viejos), el nombre configurado en Ajustes de este aparato.
+  const vendedor = (proyecto.vendedor ?? "").trim() || vendedorNombre.trim();
+  if (vendedor) msg += `\n*Vendedor:* ${vendedor}`;
 
   // El mismo aviso destacado que lleva la orden impresa.
   if (proyecto.notas.trim())

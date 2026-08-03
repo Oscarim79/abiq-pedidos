@@ -154,7 +154,10 @@ function Orden() {
           <Dato etiqueta="Fecha" valor={proyecto.creadoEn} />
           <Dato etiqueta="Tienda" valor={proyecto.tienda} />
           <Dato etiqueta="Cliente" valor={proyecto.cliente.nombre} />
-          <Dato etiqueta="Asesor" valor={ajustes.vendedorNombre} />
+          <Dato
+            etiqueta="Asesor"
+            valor={proyecto.vendedor || ajustes.vendedorNombre}
+          />
         </div>
 
         {/* Aviso importante (las notas del pedido) */}

@@ -103,7 +103,8 @@ function Ficha() {
           <p className="text-sm text-stone-600">
             Cliente: {proyecto.cliente.nombre}
             {proyecto.cliente.telefono && ` · Tel. ${proyecto.cliente.telefono}`}
-            {ajustes.vendedorNombre && ` · Vendedor: ${ajustes.vendedorNombre}`}
+            {(proyecto.vendedor || ajustes.vendedorNombre) &&
+              ` · Vendedor: ${proyecto.vendedor || ajustes.vendedorNombre}`}
           </p>
         </div>
 

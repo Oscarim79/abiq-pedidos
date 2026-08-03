@@ -143,7 +143,9 @@ function DetalleProyecto() {
             {proyecto.folio && `${folioTexto(proyecto.folio)} · `}
             {proyecto.cliente.nombre}
             {proyecto.cliente.telefono && ` · ${proyecto.cliente.telefono}`} ·{" "}
-            {proyecto.tienda} · creado el {proyecto.creadoEn}
+            {proyecto.tienda}
+            {proyecto.vendedor && ` · Vendedor: ${proyecto.vendedor}`} · creado
+            el {proyecto.creadoEn}
           </p>
         </div>
         <span

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { X } from "lucide-react";
 import type { ArticuloExtra, Proyecto } from "@/lib/tipos";
 import type { ProyectoInput } from "@/lib/proyectos-store";
+import { useAjustes } from "@/lib/ajustes-store";
 import {
   ACABADOS,
   HERRAJES,
@@ -29,6 +30,7 @@ const VACIO: ProyectoInput = {
   tipoMueble: "",
   cliente: { nombre: "", telefono: "" },
   tienda: TIENDAS[0],
+  vendedor: "",
   medidas: { largo: "", alto: "", profundidad: "" },
   madera: "",
   tela: "",
@@ -225,6 +227,7 @@ export function ProyectoForm({
           tipoMueble: inicial.tipoMueble,
           cliente: { ...inicial.cliente },
           tienda: inicial.tienda,
+          vendedor: inicial.vendedor ?? "",
           medidas: { ...inicial.medidas },
           madera: inicial.madera,
           tela: inicial.tela,
@@ -250,6 +253,21 @@ export function ProyectoForm({
   ) {
     setDatos((d) => ({ ...d, [campo]: valor }));
   }
+
+  // En un pedido NUEVO, el campo Vendedor se rellena solo con el nombre
+  // guardado en Ajustes de este aparato (se puede cambiar si atendió otra
+  // persona). Los Ajustes cargan un instante después de abrir la página,
+  // por eso se espera a que estén listos.
+  const { ajustes, cargado: ajustesListos } = useAjustes();
+  useEffect(() => {
+    if (inicial || !ajustesListos) return;
+    setDatos((d) =>
+      (d.vendedor ?? "").trim() !== ""
+        ? d
+        : { ...d, vendedor: ajustes.vendedorNombre },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ajustesListos]);
 
   // ——— Artículos adicionales de la orden de fabricación ———
   const articulos = datos.articulosExtra ?? [];
@@ -339,6 +357,14 @@ export function ProyectoForm({
                 set("cliente", { ...datos.cliente, telefono: e.target.value })
               }
               placeholder="Ej.: 55 1234 5678"
+              className={claseInput}
+            />
+          </Campo>
+          <Campo etiqueta="Vendedor (quien atiende el pedido)">
+            <input
+              value={datos.vendedor ?? ""}
+              onChange={(e) => set("vendedor", e.target.value)}
+              placeholder="Ej.: Ana López"
               className={claseInput}
             />
           </Campo>

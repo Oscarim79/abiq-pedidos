@@ -32,6 +32,17 @@ _Última sesión: 3 de agosto de 2026._
      `.claude/launch.json` (corre la app sin claves de nube → modo local
      con ejemplos). Probado ahí: mensaje sin costos y con costos
      (Q13,000 + 2×Q900 = Q14,800 ✔) y cambio de estado automático.
+6. **El vendedor ahora se guarda EN el pedido** (pedido por Oscar: no salía
+   en la orden). Antes el "Asesor" de la orden tomaba el nombre de los
+   Ajustes del aparato que la imprimía (vacío o equivocado). Ahora:
+   - Campo "Vendedor (quien atiende el pedido)" en el formulario, que se
+     rellena solo con el nombre de Ajustes al capturar un pedido nuevo
+     (editable si atendió otra persona).
+   - Ese nombre sale como "Asesor" en la orden, como "Vendedor" en la
+     ficha, en el detalle y en el mensaje de WhatsApp. Los pedidos viejos
+     (sin el dato) siguen usando el nombre de Ajustes como respaldo.
+   - Probado en modo local (prioridad correcta: pedido gana a Ajustes) y
+     publicado + verificado en la página pública.
 
 ## Sesión anterior (29 de julio)
 

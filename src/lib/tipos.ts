@@ -40,6 +40,8 @@ export type Proyecto = {
   tipoMueble: string; // Ej. "Clóset", "Mesa de comedor"…
   cliente: Cliente;
   tienda: string;
+  vendedor?: string; // quién atendió el pedido (sale como "Asesor" en la
+  // orden de fabricación). Opcional: los pedidos viejos no lo traen.
   estado: EstadoProyecto;
 
   // ——— Especificaciones que captura el vendedor ———
